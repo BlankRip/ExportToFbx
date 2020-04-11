@@ -38,9 +38,18 @@ public class NameTheItemTool : EditorWindow
     private void OnGUI()
     {
         if(planeStyle == null)
+        {
             planeStyle = new GUIStyle(EditorStyles.label);
+            planeStyle.normal.textColor = Color.white;
+            planeStyle.fontSize = 18;
+            planeStyle.fontStyle = FontStyle.Bold;
+        }
+
         if(style == null)
+        {
             style = new GUIStyle();
+            style.fontStyle = FontStyle.BoldAndItalic;
+        }
 
         EditorGUILayout.BeginHorizontal();
         if(GUILayout.Button("ON"))
@@ -76,7 +85,7 @@ public class NameTheItemTool : EditorWindow
             if (mouseOverWindow)
                 mouseOnWindow = mouseOverWindow.ToString();
             else
-                mouseOnWindow = "Nothing";
+                mouseOnWindow = "Null...";
 
             if (mouseOnWindow != windowOnPreviousUpdate)
             {
@@ -106,11 +115,6 @@ public class NameTheItemTool : EditorWindow
     {
         SceneView.duringSceneGui -= this.SecenGUI;
         SceneView.duringSceneGui += this.SecenGUI;
-
-        style.fontStyle = FontStyle.BoldAndItalic;
-        planeStyle.normal.textColor = Color.white;
-        planeStyle.fontSize = 18;
-        planeStyle.fontStyle = FontStyle.Bold;
     }
 
     void SecenGUI(SceneView scene)
@@ -143,6 +147,7 @@ public class NameTheItemTool : EditorWindow
             if (objCloseToCursor != null)
             {
                 Handles.BeginGUI();
+                
                 if (showTextOnScene)
                     Handles.Label(textPos, mouseOnObject, style);
 
@@ -151,7 +156,6 @@ public class NameTheItemTool : EditorWindow
 
                 GUI.color = new Color(0, 0, 0, 0.8f);
                 GUI.Box(rect, GUIContent.none);
-
                 GUI.color = colorText;
 
                 GUILayout.BeginHorizontal();
@@ -162,9 +166,11 @@ public class NameTheItemTool : EditorWindow
 
                 GUILayout.EndHorizontal();
                 GUILayout.EndArea();
-                Handles.EndGUI();
 
+                Handles.EndGUI();
             }
+            else
+                mouseOnObject = "Null...";
         }
     }
 
