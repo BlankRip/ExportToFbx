@@ -147,30 +147,31 @@ public class NameTheItemTool : EditorWindow
             if (objCloseToCursor != null)
             {
                 Handles.BeginGUI();
-                
                 if (showTextOnScene)
                     Handles.Label(textPos, mouseOnObject, style);
-
-                Rect rect = new Rect(0, 0, Screen.width, 21);
-                GUILayout.BeginArea(rect);
-
-                GUI.color = new Color(0, 0, 0, 0.8f);
-                GUI.Box(rect, GUIContent.none);
-                GUI.color = colorText;
-
-                GUILayout.BeginHorizontal();
-
-                GUILayout.FlexibleSpace();
-                GUILayout.Label(mouseOnObject, planeStyle);
-                GUILayout.FlexibleSpace();
-
-                GUILayout.EndHorizontal();
-                GUILayout.EndArea();
-
                 Handles.EndGUI();
             }
-            else
+            else if(mouseOnObject != "Null...")
                 mouseOnObject = "Null...";
+
+
+            Handles.BeginGUI();
+            Rect rect = new Rect(0, 0, Screen.width, 21);
+            GUILayout.BeginArea(rect);
+
+            GUI.color = new Color(0, 0, 0, 0.8f);
+            GUI.Box(rect, GUIContent.none);
+            GUI.color = colorText;
+
+            GUILayout.BeginHorizontal();
+
+            GUILayout.FlexibleSpace();
+            GUILayout.Label(mouseOnObject, planeStyle);
+            GUILayout.FlexibleSpace();
+
+            GUILayout.EndHorizontal();
+            GUILayout.EndArea();
+            Handles.EndGUI();
         }
     }
 
