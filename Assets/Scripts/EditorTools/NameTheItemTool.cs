@@ -20,8 +20,8 @@ public class NameTheItemTool : EditorWindow
     string windowOnPreviousUpdate = "Nothing";
 
     //Style settings
-    GUIStyle planeStyle = new GUIStyle(EditorStyles.label);
-    GUIStyle style = new GUIStyle();
+    GUIStyle planeStyle;
+    GUIStyle style;
     int textFontSize = 14;
     int sizeBeforUpdate;
     Color colorText = new Color32(255, 102, 0, 255);
@@ -37,6 +37,11 @@ public class NameTheItemTool : EditorWindow
 
     private void OnGUI()
     {
+        if(planeStyle == null)
+            planeStyle = new GUIStyle(EditorStyles.label);
+        if(style == null)
+            style = new GUIStyle();
+
         EditorGUILayout.BeginHorizontal();
         if(GUILayout.Button("ON"))
         {
