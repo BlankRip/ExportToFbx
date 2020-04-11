@@ -20,6 +20,7 @@ public class NameTheItemTool : EditorWindow
     string windowOnPreviousUpdate = "Nothing";
 
     //Style settings
+    GUIStyle planeStyle = new GUIStyle(EditorStyles.label);
     GUIStyle style = new GUIStyle();
     int textFontSize = 14;
     int sizeBeforUpdate;
@@ -102,6 +103,9 @@ public class NameTheItemTool : EditorWindow
         SceneView.duringSceneGui += this.SecenGUI;
 
         style.fontStyle = FontStyle.BoldAndItalic;
+        planeStyle.normal.textColor = Color.white;
+        planeStyle.fontSize = 18;
+        planeStyle.fontStyle = FontStyle.Bold;
     }
 
     void SecenGUI(SceneView scene)
@@ -116,7 +120,6 @@ public class NameTheItemTool : EditorWindow
 
                 if (objCloseToCursor != null)
                 {
-                    //textPos = objCloseToCursor.transform.position;
                     textPos = HandleUtility.GUIPointToWorldRay(e.mousePosition + Vector2.right * 20).origin;
                     mouseOnObject = objCloseToCursor.name;
                 }
@@ -132,11 +135,30 @@ public class NameTheItemTool : EditorWindow
                 }
             }
 
-            if (objCloseToCursor != null && showTextOnScene)
+            if (objCloseToCursor != null)
             {
                 Handles.BeginGUI();
-                Handles.Label(textPos, mouseOnObject, style);
+                if (showTextOnScene)
+                    Handles.Label(textPos, mouseOnObject, style);
+
+                Rect rect = new Rect(0, 0, Screen.width, 21);
+                GUILayout.BeginArea(rect);
+
+                GUI.color = new Color(0, 0, 0, 0.8f);
+                GUI.Box(rect, GUIContent.none);
+
+                GUI.color = colorText;
+
+                GUILayout.BeginHorizontal();
+
+                GUILayout.FlexibleSpace();
+                GUILayout.Label(mouseOnObject, planeStyle);
+                GUILayout.FlexibleSpace();
+
+                GUILayout.EndHorizontal();
+                GUILayout.EndArea();
                 Handles.EndGUI();
+
             }
         }
     }
