@@ -6,18 +6,19 @@ using UnityEditor.PackageManager.UI;
 using UnityEditor.Experimental.TerrainAPI;
 using UnityEngine.UI;
 using UnityEngine.PlayerLoop;
+using System.Runtime.CompilerServices;
 
 public class NameTheItemTool : EditorWindow
 {
-    bool useTool = true;
+    bool useTool = false;
 
     GameObject objCloseToCursor;
     Vector3 textPos;
     string mouseOnObject;
-    string previousObject = "Nothing";
+    string previousObject = "Tool is OFF";
 
     string mouseOnWindow;
-    string windowOnPreviousUpdate = "Nothing";
+    string windowOnPreviousUpdate = "Tool is OFF";
 
     //Style settings
     GUIStyle planeStyle;
@@ -99,7 +100,7 @@ public class NameTheItemTool : EditorWindow
                 previousObject = mouseOnObject;
             }
 
-            if(textFontSize != sizeBeforUpdate || colorText != colorBeforeUpdate)
+            if (textFontSize != sizeBeforUpdate || colorText != colorBeforeUpdate)
             {
                 updateSettings = true;
             }
@@ -133,7 +134,7 @@ public class NameTheItemTool : EditorWindow
                     mouseOnObject = objCloseToCursor.name;
                 }
 
-                if(updateSettings)
+                if (updateSettings)
                 {
                     style.fontSize = textFontSize;
                     sizeBeforUpdate = textFontSize;
@@ -151,7 +152,7 @@ public class NameTheItemTool : EditorWindow
                     Handles.Label(textPos, mouseOnObject, style);
                 Handles.EndGUI();
             }
-            else if(mouseOnObject != "Null...")
+            else if (mouseOnObject != "Null...")
                 mouseOnObject = "Null...";
 
 
