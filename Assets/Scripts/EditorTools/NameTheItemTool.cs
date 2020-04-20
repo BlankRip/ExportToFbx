@@ -29,6 +29,7 @@ public class NameTheItemTool : EditorWindow
     Color colorBeforeUpdate;
     bool updateSettings;
     bool showTextOnScene = true;
+    bool showTextPast = true;
 
     [MenuItem("Window/Selection Identity")]
     public static void ShowWindow()
@@ -64,6 +65,14 @@ public class NameTheItemTool : EditorWindow
             if (!PlayerPrefs.HasKey("A"))
                 PlayerPrefs.SetFloat("A", colorText.a);
             colorText = new Color(PlayerPrefs.GetFloat("R"), PlayerPrefs.GetFloat("G"), PlayerPrefs.GetFloat("B"), PlayerPrefs.GetFloat("A"));
+
+            //Retrieveing data if should show text on screne in case changed
+            if (!PlayerPrefs.HasKey("ShowText"))
+                PlayerPrefs.SetInt("ShowText", 1);
+            if (PlayerPrefs.GetInt("ShowText") == 1)
+                showTextOnScene = true;
+            else
+                showTextOnScene = false;
 
             style = new GUIStyle();
             style.fontStyle = FontStyle.BoldAndItalic;
@@ -117,10 +126,8 @@ public class NameTheItemTool : EditorWindow
                 previousObject = mouseOnObject;
             }
 
-            if (textFontSize != sizeBeforUpdate || colorText != colorBeforeUpdate)
-            {
+            if (textFontSize != sizeBeforUpdate || colorText != colorBeforeUpdate || showTextOnScene != showTextPast)
                 updateSettings = true;
-            }
         }
     }
 
@@ -163,6 +170,12 @@ public class NameTheItemTool : EditorWindow
                     PlayerPrefs.SetFloat("G", colorText.g);
                     PlayerPrefs.SetFloat("B", colorText.b);
                     PlayerPrefs.SetFloat("A", colorText.a);
+
+                    showTextPast = showTextOnScene;
+                    if(!showTextOnScene)
+                        PlayerPrefs.SetInt("ShowText", 0);
+                    else
+                        PlayerPrefs.SetInt("ShowText", 1);
 
                     updateSettings = false;
                 }
