@@ -40,6 +40,7 @@ public class NameTheItemTool : EditorWindow
     {
         if(planeStyle == null)
         {
+            
             planeStyle = new GUIStyle(EditorStyles.label);
             planeStyle.normal.textColor = Color.white;
             planeStyle.fontSize = 18;
@@ -48,6 +49,26 @@ public class NameTheItemTool : EditorWindow
 
         if(style == null)
         {
+            //Retreaving text size if changed
+            if (!PlayerPrefs.HasKey("Size"))
+                PlayerPrefs.SetInt("Size", 18);
+            textFontSize = PlayerPrefs.GetInt("Size");
+
+            //Retrieveing text color if changed
+            if (!PlayerPrefs.HasKey("R"))
+                PlayerPrefs.SetFloat("R", colorText.r);
+            if (!PlayerPrefs.HasKey("G"))
+                PlayerPrefs.SetFloat("G", colorText.g);
+            if (!PlayerPrefs.HasKey("B"))
+                PlayerPrefs.SetFloat("B", colorText.b);
+            if (!PlayerPrefs.HasKey("A"))
+                PlayerPrefs.SetFloat("A", colorText.a);
+            //colorText.r = PlayerPrefs.GetFloat("R");
+            //colorText.g = PlayerPrefs.GetFloat("G");
+            //colorText.b = PlayerPrefs.GetFloat("B");
+            //colorText.a = PlayerPrefs.GetFloat("A");
+            colorText = new Color(PlayerPrefs.GetFloat("R"), PlayerPrefs.GetFloat("G"), PlayerPrefs.GetFloat("B"), PlayerPrefs.GetFloat("A"));
+
             style = new GUIStyle();
             style.fontStyle = FontStyle.BoldAndItalic;
         }
@@ -138,9 +159,15 @@ public class NameTheItemTool : EditorWindow
                 {
                     style.fontSize = textFontSize;
                     sizeBeforUpdate = textFontSize;
+                    PlayerPrefs.SetInt("Size", textFontSize);
 
                     style.normal.textColor = colorText;
                     colorBeforeUpdate = colorText;
+                    PlayerPrefs.SetFloat("R", colorText.r);
+                    PlayerPrefs.SetFloat("G", colorText.g);
+                    PlayerPrefs.SetFloat("B", colorText.b);
+                    PlayerPrefs.SetFloat("A", colorText.a);
+
                     updateSettings = false;
                 }
             }

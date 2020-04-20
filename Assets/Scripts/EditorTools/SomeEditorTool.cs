@@ -5,7 +5,7 @@ using UnityEditor;
 
 public class SomeEditorTool : EditorWindow
 {
-    [MenuItem("Window/Test Tool")]
+    [MenuItem("Window/Weapon Builder")]
     public static void ShowWindow()
     {
         GetWindow<SomeEditorTool>("Test Tool");
