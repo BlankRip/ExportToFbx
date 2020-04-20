@@ -63,10 +63,6 @@ public class NameTheItemTool : EditorWindow
                 PlayerPrefs.SetFloat("B", colorText.b);
             if (!PlayerPrefs.HasKey("A"))
                 PlayerPrefs.SetFloat("A", colorText.a);
-            //colorText.r = PlayerPrefs.GetFloat("R");
-            //colorText.g = PlayerPrefs.GetFloat("G");
-            //colorText.b = PlayerPrefs.GetFloat("B");
-            //colorText.a = PlayerPrefs.GetFloat("A");
             colorText = new Color(PlayerPrefs.GetFloat("R"), PlayerPrefs.GetFloat("G"), PlayerPrefs.GetFloat("B"), PlayerPrefs.GetFloat("A"));
 
             style = new GUIStyle();
