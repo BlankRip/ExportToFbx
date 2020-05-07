@@ -4,4 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/ShowingItazaStuff.unity
+    guid: a099829f1f793024ca146f0faa88da53
+  m_configObjects: {}
