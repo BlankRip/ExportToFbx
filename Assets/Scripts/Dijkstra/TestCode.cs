@@ -5,13 +5,10 @@ using UnityEngine;
 public class TestCode : MonoBehaviour
 {
     Stack<int> finalPath;
-    [SerializeField] Transform nearStart;
-    [SerializeField] Transform nearEnd;
-    int start;
-    int target;
-    Vector3 noedI;
-    Vector3 nodeJ;
-    // Start is called before the first frame update
+    [SerializeField] Transform nearStart, nearEnd;
+    int start, target;
+    Vector3 noedI, nodeJ;
+
     void Start()
     {
         UpdatePathStartNTarget(nearStart, nearEnd, ref start, ref target);
@@ -23,7 +20,6 @@ public class TestCode : MonoBehaviour
         finalPath.Pop();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.E) && finalPath.Count == 0)

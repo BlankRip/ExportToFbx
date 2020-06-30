@@ -4,7 +4,6 @@ using UnityEngine;
 
 public static class DijkstraAlgorithim
 {
-    
     public static Stack<int> Dijkstra(float[][] graph, int start, int target)
     {
         //Setting up things required to do the algorithim
