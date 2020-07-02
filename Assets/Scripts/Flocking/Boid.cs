@@ -9,6 +9,9 @@ public class Boid : MonoBehaviour
     float initialSpeed;
     public Rigidbody rb;
     Vector3 initialMoveDire;
+    Vector3 alignmentForce;
+    Vector3 saperationForce;
+    Vector3 cohesionForce;
 
     void Start()
     {
@@ -23,8 +26,11 @@ public class Boid : MonoBehaviour
     void Update()
     {
         Debug.DrawRay(transform.position, rb.velocity.normalized, Color.red);
+        alignmentForce = Flocking.instance.Alignemnt(this);
+        saperationForce = Flocking.instance.Saperation(this);
+        cohesionForce = Flocking.instance.Cohesion(this);
 
-        rb.velocity += Flocking.instance.Flock(this);
+        rb.velocity += alignmentForce + saperationForce + cohesionForce;
         rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
         rb.velocity = rb.velocity.normalized * maximumVelocity;
     }

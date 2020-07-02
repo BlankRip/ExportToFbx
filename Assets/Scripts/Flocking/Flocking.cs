@@ -5,9 +5,10 @@ using UnityEngine;
 public class Flocking : MonoBehaviour
 {
     public static Flocking instance;
-    [SerializeField] float cohsionAlignRadius = 3;
+    [SerializeField] float alignmentRadius = 3;
     [SerializeField] float alignmentStrength = 1;
-    [SerializeField] float chosionStrength = 1;
+    [SerializeField] float cohesionRadious = 3;
+    [SerializeField] float cohesionStrength = 1;
     [SerializeField] float saperationRadius = 0.2f;
     [SerializeField] float saperationStrength = 1;
     Boid[] allBoids;
@@ -23,13 +24,7 @@ public class Flocking : MonoBehaviour
         allBoids = FindObjectsOfType<Boid>();
     }
 
-    public Vector3 Flock(Boid boid)
-    {
-        Vector3 flockForce = Alignemnt(boid) + Saperation(boid) + Cohesion(boid);
-        return flockForce;
-    }
-
-    private Vector3 Alignemnt(Boid currentBoid)
+    public Vector3 Alignemnt(Boid currentBoid)
     {
         Vector3 alignementVelocity = Vector3.zero;
         int boidsInRadius = 0;
@@ -40,7 +35,7 @@ public class Flocking : MonoBehaviour
             if(boid != currentBoid)
             {
                 distance = Vector3.Distance(currentBoid.transform.position, boid.transform.position);
-                if(distance > 0 && distance < cohsionAlignRadius)
+                if(distance > 0 && distance < alignmentRadius)
                 {
                     alignementVelocity += boid.rb.velocity;
                     boidsInRadius++;
@@ -57,7 +52,7 @@ public class Flocking : MonoBehaviour
         return alignementVelocity;
     }
 
-    private Vector3 Saperation(Boid currentBoid)
+    public Vector3 Saperation(Boid currentBoid)
     {
         Vector3 saperationVelocity = Vector3.zero;
         Vector3 distanceVector;
@@ -87,7 +82,7 @@ public class Flocking : MonoBehaviour
         return saperationVelocity;
     }
 
-    private Vector3 Cohesion(Boid currentBoid)
+    public Vector3 Cohesion(Boid currentBoid)
     {
         Vector3 cohesionForce = Vector3.zero;
         int boidsInRadius = 0;
@@ -98,9 +93,9 @@ public class Flocking : MonoBehaviour
             if(boid != currentBoid)
             {
                 distance = Vector3.Distance(currentBoid.transform.position, boid.transform.position);
-                if(distance > 0 && distance < cohsionAlignRadius)
+                if(distance > 0 && distance < cohesionRadious)
                 {
-                    cohesionForce = boid.transform.position;
+                    cohesionForce += boid.transform.position;
                     boidsInRadius++;
                 }
             }
@@ -110,7 +105,7 @@ public class Flocking : MonoBehaviour
         {
             cohesionForce = cohesionForce/boidsInRadius;
             cohesionForce = cohesionForce - currentBoid.transform.position;
-            cohesionForce = cohesionForce.normalized * chosionStrength;
+            cohesionForce = cohesionForce.normalized * cohesionStrength;
         }
 
         return cohesionForce;

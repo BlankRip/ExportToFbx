@@ -1679,12 +1679,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63549b16e0dba3a4fa4eee50702cc863, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flockStrength: 1
-  cohsionAlignRadius: 3
-  alignmentStrength: 2.5
-  chosionStrength: 0.4
-  saperationRadius: 2
-  saperationStrength: 0.5
+  alignmentRadius: 3
+  alignmentStrength: 1
+  cohesionRadious: 3
+  cohesionStrength: 0.5
+  saperationRadius: 1
+  saperationStrength: 2
 --- !u!4 &782436433
 Transform:
   m_ObjectHideFlags: 0
