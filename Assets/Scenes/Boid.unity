@@ -1680,11 +1680,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   alignmentRadius: 3
-  alignmentStrength: 1
+  alignmentStrength: 10
   cohesionRadious: 3
-  cohesionStrength: 0.5
-  saperationRadius: 1
-  saperationStrength: 2
+  cohesionStrength: 10
+  saperationRadius: 2
+  saperationStrength: 10
 --- !u!4 &782436433
 Transform:
   m_ObjectHideFlags: 0

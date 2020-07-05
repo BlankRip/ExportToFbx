@@ -26,11 +26,11 @@ public class Boid : MonoBehaviour
     void Update()
     {
         Debug.DrawRay(transform.position, rb.velocity.normalized, Color.red);
-        alignmentForce = Flocking.instance.Alignemnt(this);
-        saperationForce = Flocking.instance.Saperation(this);
-        cohesionForce = Flocking.instance.Cohesion(this);
+        alignmentForce = Flocking.instance.Alignemnt(this) * Flocking.instance.alignmentStrength;
+        saperationForce = Flocking.instance.Saperation(this) * Flocking.instance.saperationStrength;
+        cohesionForce = Flocking.instance.Cohesion(this) * Flocking.instance.cohesionStrength;
 
-        rb.velocity += alignmentForce + saperationForce + cohesionForce;
+        rb.velocity += (alignmentForce + saperationForce + cohesionForce) * Time.deltaTime;
         rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
         rb.velocity = rb.velocity.normalized * maximumVelocity;
     }

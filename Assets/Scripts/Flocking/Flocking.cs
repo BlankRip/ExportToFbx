@@ -6,11 +6,11 @@ public class Flocking : MonoBehaviour
 {
     public static Flocking instance;
     [SerializeField] float alignmentRadius = 3;
-    [SerializeField] float alignmentStrength = 1;
+    public float alignmentStrength = 1;
     [SerializeField] float cohesionRadious = 3;
-    [SerializeField] float cohesionStrength = 1;
+    public float cohesionStrength = 1;
     [SerializeField] float saperationRadius = 0.2f;
-    [SerializeField] float saperationStrength = 1;
+    public float saperationStrength = 1;
     Boid[] allBoids;
     
     private void Awake() 
@@ -26,7 +26,7 @@ public class Flocking : MonoBehaviour
 
     public Vector3 Alignemnt(Boid currentBoid)
     {
-        Vector3 alignementVelocity = Vector3.zero;
+        Vector3 alignementForce = Vector3.zero;
         int boidsInRadius = 0;
         float distance;
 
@@ -37,24 +37,21 @@ public class Flocking : MonoBehaviour
                 distance = Vector3.Distance(currentBoid.transform.position, boid.transform.position);
                 if(distance > 0 && distance < alignmentRadius)
                 {
-                    alignementVelocity += boid.rb.velocity;
+                    alignementForce += boid.rb.velocity;
                     boidsInRadius++;
                 }
             }
         }
 
         if(boidsInRadius != 0)
-        {
-            alignementVelocity = alignementVelocity/boidsInRadius;
-            alignementVelocity = alignementVelocity.normalized * alignmentStrength;
-        }
+            alignementForce = alignementForce/boidsInRadius;
         
-        return alignementVelocity;
+        return alignementForce;
     }
 
     public Vector3 Saperation(Boid currentBoid)
     {
-        Vector3 saperationVelocity = Vector3.zero;
+        Vector3 saperationForce = Vector3.zero;
         Vector3 distanceVector;
         int boidsInRadius= 0;
         float distance;
@@ -67,19 +64,16 @@ public class Flocking : MonoBehaviour
                 distance = distanceVector.magnitude;
                 if(distance > 0 && distance < saperationRadius)
                 {
-                    saperationVelocity += distanceVector;
+                    saperationForce += distanceVector;
                     boidsInRadius++;
                 }
             }
         }
 
         if(boidsInRadius != 0)
-        {
-            saperationVelocity = saperationVelocity/boidsInRadius;
-            saperationVelocity = saperationVelocity.normalized * saperationStrength;
-        }
+            saperationForce = saperationForce/boidsInRadius;
 
-        return saperationVelocity;
+        return saperationForce;
     }
 
     public Vector3 Cohesion(Boid currentBoid)
@@ -105,7 +99,6 @@ public class Flocking : MonoBehaviour
         {
             cohesionForce = cohesionForce/boidsInRadius;
             cohesionForce = cohesionForce - currentBoid.transform.position;
-            cohesionForce = cohesionForce.normalized * cohesionStrength;
         }
 
         return cohesionForce;
