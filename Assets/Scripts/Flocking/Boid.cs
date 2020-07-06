@@ -33,5 +33,10 @@ public class Boid : MonoBehaviour
         rb.velocity += (alignmentForce + saperationForce + cohesionForce) * Time.deltaTime;
         rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
         rb.velocity = rb.velocity.normalized * maximumVelocity;
+
+        if(transform.position.x > 27 || transform.position.x < -27)
+            transform.position = new Vector3((transform.position.x/Mathf.Abs(transform.position.x)) * 26.5f * -1, transform.position.y, transform.position.z);
+        if(transform.position.z > 17 || transform.position.z < -17)
+            transform.position = new Vector3(transform.position.x, transform.position.y, (transform.position.z/Mathf.Abs(transform.position.z)) * 16.5f * -1);
     }
 }

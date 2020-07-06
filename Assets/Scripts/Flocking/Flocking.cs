@@ -30,7 +30,7 @@ public class Flocking : MonoBehaviour
         int boidsInRadius = 0;
         float distance;
 
-        foreach (var boid in allBoids)
+        foreach (Boid boid in allBoids)
         {
             if(boid != currentBoid)
             {
@@ -56,7 +56,7 @@ public class Flocking : MonoBehaviour
         int boidsInRadius= 0;
         float distance;
 
-        foreach (var boid in allBoids)
+        foreach (Boid boid in allBoids)
         {
             if(boid != currentBoid)
             {
@@ -82,7 +82,7 @@ public class Flocking : MonoBehaviour
         int boidsInRadius = 0;
         float distance;
 
-        foreach (var boid in allBoids)
+        foreach (Boid boid in allBoids)
         {
             if(boid != currentBoid)
             {
