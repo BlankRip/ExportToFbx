@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class FormationHead : MonoBehaviour
 {
-    public static FormationHead instance;
+    public enum FormationType {Circle, V }
+    [HideInInspector] public static FormationHead instance;
 
+    [SerializeField] FormationType formationType;
+    [SerializeField] float circleRadius = 3;
+    [SerializeField] int boidsInFormation = 4;
     [SerializeField] float maxVelocity;
     [SerializeField] float maxForce;
     [SerializeField] GameObject boid;
-    [SerializeField] int triOf = 4;
     Rigidbody rb;
-    List<FBoid> boids;
+    List<FBoid> allBoids;
 
     private void Awake() 
     {
@@ -21,29 +24,78 @@ public class FormationHead : MonoBehaviour
 
     private void Start() 
     {
-        FBoid currentBoid = Instantiate(boid, transform.position, transform.rotation).GetComponent<FBoid>();
-        currentBoid.transform.position = new Vector3(transform.position.x, currentBoid.transform.position.y, transform.position.z);
-        currentBoid.myX = 0;
-        currentBoid.myZ = 0;
-        currentBoid.followObj = gameObject.transform;
-
-        for (int i = 1; i < triOf; i++)
+        allBoids = new List<FBoid>();
+        if(boidsInFormation % 2 == 0)
+            boidsInFormation++;
+        
+        for (int i = 0; i < boidsInFormation; i++)
         {
-            currentBoid = Instantiate(boid, transform.position, transform.rotation).GetComponent<FBoid>();
-            currentBoid.transform.position = new Vector3(transform.position.x + i, currentBoid.transform.position.y, transform.position.z - i);
-            currentBoid.myX = i;
-            currentBoid.myZ = i;
-            currentBoid.followObj = gameObject.transform;
-
-            currentBoid = Instantiate(boid, transform.position, transform.rotation).GetComponent<FBoid>();
-            currentBoid.transform.position = new Vector3(transform.position.x - i, currentBoid.transform.position.y, transform.position.z - i);
-            currentBoid.myX = -i;
-            currentBoid.myZ = i;
-            currentBoid.followObj = gameObject.transform;
+            FBoid currentBoid  = Instantiate(boid, transform.position, transform.rotation).GetComponent<FBoid>();
+            allBoids.Add(currentBoid);
         }
 
-        // rb = GetComponent<Rigidbody>();
-        // rb.velocity = Vector3.forward * 10;
+        rb = GetComponent<Rigidbody>();
+        rb.velocity = Vector3.forward * 7;
+    }
+
+    private void Update() 
+    {
+        UpdateFormation();
+        FlipDir();
+
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            if(formationType == FormationType.Circle)
+                formationType = FormationType.V;
+            else if(formationType == FormationType.V)
+                formationType = FormationType.Circle;
+        }
+    }
+
+    public void UpdateFormation()
+    {
+        Vector3 targetPos = Vector3.zero;
+
+        float circleSegments = 0;
+        if(formationType == FormationType.Circle)
+        {
+            circleSegments = 2*Mathf.PI / allBoids.Count;
+            targetPos.y = 0;
+        }
+
+        for (int i = 0; i < allBoids.Count; i++)
+        {
+            if(formationType == FormationType.V)
+            {
+                int iMod = i % 2;
+                int iModSide = (iMod * 2) - 1;
+                targetPos = (-transform.forward * (i + iMod)) + (transform.right * iModSide * (i + iMod));
+                allBoids[i].seekPosition = transform.position + targetPos;
+            }
+            else if(formationType == FormationType.Circle)
+            {
+                targetPos.x = Mathf.Sin(i * circleSegments);
+                targetPos.z = Mathf.Cos(i * circleSegments);
+                allBoids[i].seekPosition = transform.position + (targetPos * circleRadius);
+            }
+            
+        }
+    }
+
+    private void FlipDir()
+    {
+        if(transform.position.x > 27 || transform.position.x < -27)
+        {
+            transform.position = transform.position - transform.right;
+            transform.LookAt(transform.position + (-transform.right * 5));
+            rb.velocity = transform.forward * 7;
+        }
+        if(transform.position.z > 17 || transform.position.z < -17)
+        {
+            transform.position = transform.position - transform.forward;
+            transform.LookAt(transform.position + (-transform.forward * 5));
+            rb.velocity = transform.forward * 7;
+        }
     }
 
 

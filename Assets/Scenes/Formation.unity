@@ -429,10 +429,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3194aae62ac598043a37b6caf3dc8478, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  formationType: 1
+  circleRadius: 7
+  boidsInFormation: 20
   maxVelocity: 10
   maxForce: 10
   boid: {fileID: 7998738618739963041, guid: 1a6d09aa509475d4f817c6a9c1a0e0bb, type: 3}
-  triOf: 4
 --- !u!54 &800880795
 Rigidbody:
   m_ObjectHideFlags: 0
