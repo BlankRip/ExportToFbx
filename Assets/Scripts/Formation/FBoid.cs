@@ -15,7 +15,7 @@ public class FBoid : MonoBehaviour
 
     void Update()
     {
-        seekForce = FormationHead.instance.Arrive(seekPosition, 0.5f, rb);
+        seekForce = Steering.instance.Arrive(seekPosition, 0.5f, rb);
         rb.velocity += seekForce;
         //transform.position = seekPosition;
     }

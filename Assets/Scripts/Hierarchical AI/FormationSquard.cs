@@ -2,28 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FormationHead : MonoBehaviour
+    public enum Enemies{Dog, Cat, Man}
+public class FormationSquard : MonoBehaviour
 {
     public enum FormationType {Circle, V }
-    [HideInInspector] public static FormationHead instance;
+    FormationType formationType;
+    public Enemies meAttack;
+    public Vector3 seekPos;
 
-    [SerializeField] FormationType formationType;
-    [SerializeField] bool startMoveFormation;
-    [SerializeField] bool stopMoveFormation;
-    [SerializeField] bool rotateCircle;
     [SerializeField] float circleRadius = 3;
     [SerializeField] int boidsInFormation = 4;
     [SerializeField] GameObject boid;
     Rigidbody rb;
     List<FBoid> allBoids;
 
-    private void Awake() 
-    {
-        if(instance == null)
-            instance = this;
-    }
-
-    private void Start() 
+    private void OnEnable()
     {
         allBoids = new List<FBoid>();
         if(boidsInFormation % 2 == 0)
@@ -35,41 +28,22 @@ public class FormationHead : MonoBehaviour
             allBoids.Add(currentBoid);
         }
 
+        Debug.Log("<color=cyan>" + meAttack.ToString() + "</color>");
+        if(meAttack == Enemies.Dog || meAttack == Enemies.Man)
+            formationType = FormationType.V;
+        if(meAttack == Enemies.Cat)
+            formationType = FormationType.Circle;
+
         rb = GetComponent<Rigidbody>();
     }
 
     private void Update() 
     {
-        if(startMoveFormation)
-        {
-            rb.velocity = Vector3.forward * 7;
-            startMoveFormation = false;
-        }
-
-        if(stopMoveFormation)
-        {
-            rb.velocity = Vector3.zero;
-            stopMoveFormation = false;
-        }
+        rb.velocity += Steering.instance.Arrive(seekPos, 0.5f, rb);
 
 
         UpdateFormation();
         FlipDir();
-
-        if(Input.GetKeyDown(KeyCode.E))
-        {
-            if(formationType == FormationType.Circle)
-            {
-                formationType = FormationType.V;
-                if(rb.velocity.normalized == Vector3.forward)
-                    transform.rotation = Quaternion.EulerAngles(0,0,0);
-                else
-                    transform.rotation = Quaternion.EulerAngles(0,Mathf.PI,0);
-
-            }
-            else if(formationType == FormationType.V)
-                formationType = FormationType.Circle;
-        }
     }
 
     public void UpdateFormation()
@@ -98,8 +72,6 @@ public class FormationHead : MonoBehaviour
                 targetPos.x = Mathf.Sin(finalAngle);
                 targetPos.z = Mathf.Cos(finalAngle);
                 allBoids[i].seekPosition = transform.position + (targetPos * circleRadius);
-                if(rotateCircle)
-                    transform.Rotate(0, 0.001f , 0);
             }
             
         }
@@ -109,7 +81,7 @@ public class FormationHead : MonoBehaviour
     {
         if(transform.position.z > 17 || transform.position.z < -17)
         {
-            transform.position = transform.position - rb.velocity.normalized;
+            transform.position = transform.position - transform.forward;
             transform.Rotate(0, 180 , 0);
             rb.velocity = rb.velocity.normalized * -7;
         }
