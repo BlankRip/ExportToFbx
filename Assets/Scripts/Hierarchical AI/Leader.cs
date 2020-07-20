@@ -5,34 +5,36 @@ using UnityEngine;
 public class Leader : MonoBehaviour
 {
     [SerializeField] FormationSquard[] squads;
-    [SerializeField] Transform[] movePoints;
+    [SerializeField] List<Transform> movePoints;
     int picker;
     int previousPick;
 
     void Start()
     {
-        for (int i = 0; i < 2; i++)
+        if(squads.Length <= movePoints.Count)
         {
-            picker = Random.Range(0, 100);
-            if(picker < 35)
-                squads[i].meAttack = Enemies.Dog;
-            else if(picker > 35 && picker < 80)
-                squads[i].meAttack = Enemies.Cat;
-            else if(picker > 80)
-                squads[i].meAttack = Enemies.Man;
+            for (int i = 0; i < squads.Length; i++)
+            {
+                picker = Random.Range(0, 100);
+                if(picker < 35)
+                    squads[i].meAttack = Enemies.Dog;
+                else if(picker > 35 && picker < 80)
+                    squads[i].meAttack = Enemies.Cat;
+                else if(picker > 80)
+                    squads[i].meAttack = Enemies.Man;
+            }
+            
+            for (int i = 0; i < squads.Length; i++)
+            {
+                picker = Random.Range(0, movePoints.Count); 
+                squads[i].seekPos = movePoints[picker].position;
+                movePoints.Remove(movePoints[picker]);
+            }
+            
+            for (int i = 0; i < squads.Length; i++)
+                squads[i].enabled = true;
         }
-        
-
-        picker = Random.Range(0, movePoints.Length); 
-        squads[0].seekPos = movePoints[picker].position;
-
-        if(picker == movePoints.Length -1)
-            picker--;
         else
-        picker++;
-        squads[1].seekPos = movePoints[picker].position;
-
-        squads[0].enabled = true;
-        squads[1].enabled = true;
+            Debug.Log("<color=red> THE NUMBER OF SQUADS ARE MORE THAN POINTS TO MOVE </color>");
     }
 }

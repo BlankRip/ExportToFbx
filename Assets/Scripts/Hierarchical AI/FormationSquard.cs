@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-    public enum Enemies{Dog, Cat, Man}
+public enum Enemies{Dog, Cat, Man}
+
+
 public class FormationSquard : MonoBehaviour
 {
     public enum FormationType {Circle, V }
@@ -28,7 +30,8 @@ public class FormationSquard : MonoBehaviour
             allBoids.Add(currentBoid);
         }
 
-        Debug.Log("<color=cyan>" + meAttack.ToString() + "</color>");
+        Debug.Log("<color=green>" + gameObject.name + "</color><color=blue> is now attacking: </color><color=red>" + 
+        meAttack.ToString() + "</color><color=blue> which is at position: </color><color=yellow>" + seekPos.ToString() + "</color>");
         if(meAttack == Enemies.Dog || meAttack == Enemies.Man)
             formationType = FormationType.V;
         if(meAttack == Enemies.Cat)
@@ -41,9 +44,7 @@ public class FormationSquard : MonoBehaviour
     {
         rb.velocity += Steering.instance.Arrive(seekPos, 0.5f, rb);
 
-
         UpdateFormation();
-        FlipDir();
     }
 
     public void UpdateFormation()
@@ -73,17 +74,6 @@ public class FormationSquard : MonoBehaviour
                 targetPos.z = Mathf.Cos(finalAngle);
                 allBoids[i].seekPosition = transform.position + (targetPos * circleRadius);
             }
-            
-        }
-    }
-
-    private void FlipDir()
-    {
-        if(transform.position.z > 17 || transform.position.z < -17)
-        {
-            transform.position = transform.position - transform.forward;
-            transform.Rotate(0, 180 , 0);
-            rb.velocity = rb.velocity.normalized * -7;
         }
     }
 }
