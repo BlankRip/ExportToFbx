@@ -7,7 +7,7 @@ public class RepresentGraphIn2DArray_AStar : MonoBehaviour
     public static RepresentGraphIn2DArray_AStar instance;
     [SerializeField] string nodeTag = "PathFindNode";
     public LayerMask nonWalkableLayers;
-    public  GameObject[] allNodes;
+    public  Node_AStar[] allNodes;
     public float[][] grapRepresentation;
 
     Vector3 iPos;
@@ -18,11 +18,11 @@ public class RepresentGraphIn2DArray_AStar : MonoBehaviour
     {
         if(instance == null)
             instance = this;
-        allNodes = GameObject.FindGameObjectsWithTag(nodeTag);
+        allNodes = FindObjectsOfType<Node_AStar>();
         Create2DArray(allNodes, ref grapRepresentation, nonWalkableLayers);
     }
 
-    private void Create2DArray(GameObject[] nodes, ref float[][] arrayToFill, LayerMask objstacleLayers)
+    private void Create2DArray(Node_AStar[] nodes, ref float[][] arrayToFill, LayerMask objstacleLayers)
     {
         Vector3 direction;
         float distanceToNode;
@@ -37,14 +37,14 @@ public class RepresentGraphIn2DArray_AStar : MonoBehaviour
 
         for (int i = 0; i < nodes.Length; i++)
         {
-            Node_AStar currentNode = nodes[i].GetComponent<Node_AStar>();
+            Node_AStar currentNode = nodes[i];
             currentNode.myIndex = i;
             for (int j = 0; j < nodes.Length; j++)
             {
                 if(i != j)
                 {
-                    iPosition = nodes[i].transform.position;
-                    jPosition = nodes[j].transform.position;
+                    iPosition = nodes[i].gameObject.transform.position;
+                    jPosition = nodes[j].gameObject.transform.position;
                     direction = (jPosition - iPosition).normalized;
                     distanceToNode = Vector3.Distance(iPosition, jPosition);
                     if(Physics.Raycast(iPosition, direction, distanceToNode, objstacleLayers))
@@ -52,7 +52,7 @@ public class RepresentGraphIn2DArray_AStar : MonoBehaviour
                     else
                     {
                         arrayToFill[i][j] = distanceToNode;
-                        currentNode.connections.Add(j);
+                        currentNode.connections.Add(nodes[j]);
                         Debug.DrawLine(iPosition, jPosition, Color.green, Mathf.Infinity);
                     }
                 }
