@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RepresentGraph2D_Array : MonoBehaviour
+public class RepresentGraphIn2DArray_AStar : MonoBehaviour
 {
-    public static RepresentGraph2D_Array instance;
+    public static RepresentGraphIn2DArray_AStar instance;
     [SerializeField] string nodeTag = "PathFindNode";
     public LayerMask nonWalkableLayers;
     public  GameObject[] allNodes;
@@ -37,6 +37,8 @@ public class RepresentGraph2D_Array : MonoBehaviour
 
         for (int i = 0; i < nodes.Length; i++)
         {
+            Node_AStar currentNode = nodes[i].GetComponent<Node_AStar>();
+            currentNode.myIndex = i;
             for (int j = 0; j < nodes.Length; j++)
             {
                 if(i != j)
@@ -48,7 +50,11 @@ public class RepresentGraph2D_Array : MonoBehaviour
                     if(Physics.Raycast(iPosition, direction, distanceToNode, objstacleLayers))
                         arrayToFill[i][j] = -1;
                     else
+                    {
                         arrayToFill[i][j] = distanceToNode;
+                        currentNode.connections.Add(j);
+                        Debug.DrawLine(iPosition, jPosition, Color.green, Mathf.Infinity);
+                    }
                 }
                 else
                 {
