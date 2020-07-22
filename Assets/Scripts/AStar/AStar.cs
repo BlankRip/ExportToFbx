@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AStar : MonoBehaviour
 {
-    public static Stack<int> Dijkstra(float[][] graph, Node_AStar start, Node_AStar target)
+    public static Stack<int> AStarPath(float[][] graph, Node_AStar start, Node_AStar target)
     {
         //Setting up things required to do the algorithim
         List<Node_AStar> nodesToProcess = new List<Node_AStar>();
@@ -13,6 +13,7 @@ public class AStar : MonoBehaviour
         float[] shortestDistanceFromStart = new float[graph.Length];
         float[] finalCost = new float[graph.Length];
         Node_AStar current = new Node_AStar();
+        bool createPath = false;
         
         nodesToProcess.Add(start);
         for (int i = 0; i < graph.Length; i++)
@@ -42,7 +43,10 @@ public class AStar : MonoBehaviour
             }
 
             if(current == target)
+            {
+                createPath = true;
                 break;
+            }
 
             nodesToProcess.Remove(current);
 
@@ -73,18 +77,26 @@ public class AStar : MonoBehaviour
             visited[current.myIndex] = true;
         }
 
-        //Finding the finalPath
         Stack<int> path = new Stack<int>();
-        int currentIndex = target.myIndex;
-        if(fromNode[currentIndex] >= 0 || current == start)
+        if(createPath)
         {
-            while (currentIndex >= 0)
+            //Finding the finalPath
+            int currentIndex = target.myIndex;
+            if(fromNode[currentIndex] >= 0 || current == start)
             {
-                path.Push(currentIndex);
-                currentIndex = fromNode[currentIndex];
+                while (currentIndex >= 0)
+                {
+                    path.Push(currentIndex);
+                    currentIndex = fromNode[currentIndex];
+                }
             }
-        }
 
-        return path;
+            return path;
+        }
+        else
+        {
+            Debug.Log("<color=red>PATH COULD NOT BE FOUND </color>");
+            return path;
+        }
     }
 }

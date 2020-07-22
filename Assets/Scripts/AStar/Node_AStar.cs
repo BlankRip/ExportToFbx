@@ -8,11 +8,13 @@ public class Node_AStar : MonoBehaviour
     public int myIndex;
     public List<Node_AStar> connections;
 
-    private void Awake()
+    public Node_AStar()
     {
         connections = new List<Node_AStar>();
-        myHCost = -1;
+    }
 
-
+    private void Awake() 
+    {
+        myHCost = -1;        
     }
 }
