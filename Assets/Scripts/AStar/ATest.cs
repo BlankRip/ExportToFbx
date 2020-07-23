@@ -6,32 +6,61 @@ public class ATest : MonoBehaviour
 {   
     Stack<int> finalPath;
     [SerializeField] Transform nearStart, nearEnd;
+    [SerializeField] float gapBtwPathChecks = 1;
     [SerializeField] float arriveRadius;
     [SerializeField] float maxSeekVelocity;
     [SerializeField] float maxSeekForce;
     Node_AStar start, target;
+    int previousTIndex;
     Vector3 noedI, nodeJ;
 
     Rigidbody myRb;
+    bool touchDown;
 
     void Start()
     {
         myRb = GetComponent<Rigidbody>();
-        UpdatePathStartNTarget(nearStart, nearEnd, ref start, ref target);
-        Debug.Log(start + " , " + target);
-        finalPath = AStar.AStarPath(RepresentGraphIn2DArray_AStar.instance.grapRepresentation, RepresentGraphIn2DArray_AStar.instance.allNodes, start, target);
-
-        noedI = RepresentGraphIn2DArray_AStar.instance.allNodes[finalPath.Peek()].transform.position;
-        noedI.y = transform.position.y;
-        Debug.Log(finalPath.Peek());
-        finalPath.Pop();
+        touchDown = false;
+        previousTIndex = -1;
+        StartCoroutine(FindPathAfter());
     }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E) && finalPath.Count == 0)
+        if(touchDown)
         {
-            UpdatePathStartNTarget(nearStart, nearEnd, ref start, ref target);
+            if (finalPath.Count > 0)
+            {
+                nodeJ = RepresentGraphIn2DArray_AStar.instance.allNodes[finalPath.Peek()].transform.position;
+                if(noedI != nodeJ)
+                {
+                    nodeJ.y = transform.position.y;
+                    Debug.DrawLine(noedI, nodeJ, Color.blue, 3f);
+                    noedI = nodeJ;
+                }
+                
+                //Debug.Log(finalPath.Peek());
+                if(Vector3.Distance(transform.position, nodeJ) < arriveRadius)
+                    finalPath.Pop();
+
+                myRb.velocity += Arrive(nodeJ);
+            }
+            else
+            {
+                myRb.velocity += Arrive(nearEnd.transform.position);
+            }
+
+            if(myRb.velocity.magnitude > maxSeekVelocity)
+                    myRb.velocity = myRb.velocity.normalized * maxSeekVelocity;
+        }
+    }
+
+    IEnumerator FindPathAfter()
+    {
+        UpdatePathStartNTarget(nearStart, nearEnd, ref start, ref target);
+        if(previousTIndex != target.myIndex)
+        {
+            previousTIndex = target.myIndex;
             Debug.Log(start + " , " + target);
             finalPath = AStar.AStarPath(RepresentGraphIn2DArray_AStar.instance.grapRepresentation, RepresentGraphIn2DArray_AStar.instance.allNodes, start, target);
 
@@ -41,29 +70,8 @@ public class ATest : MonoBehaviour
             finalPath.Pop();
         }
 
-        if (finalPath.Count > 0)
-        {
-            nodeJ = RepresentGraphIn2DArray_AStar.instance.allNodes[finalPath.Peek()].transform.position;
-            if(noedI != nodeJ)
-            {
-                nodeJ.y = transform.position.y;
-                Debug.DrawLine(noedI, nodeJ, Color.blue, 3f);
-                noedI = nodeJ;
-            }
-            
-            //Debug.Log(finalPath.Peek());
-            if(Vector3.Distance(transform.position, nodeJ) < arriveRadius)
-                finalPath.Pop();
-
-            myRb.velocity += Arrive(nodeJ);
-        }
-        else
-        {
-            myRb.velocity += Arrive(nearEnd.transform.position);
-        }
-
-        if(myRb.velocity.magnitude > maxSeekVelocity)
-                myRb.velocity = myRb.velocity.normalized * maxSeekVelocity;
+        yield return new WaitForSeconds(gapBtwPathChecks);
+        StartCoroutine(FindPathAfter());
     }
 
     private void UpdatePathStartNTarget(Transform startPos, Transform targetPos, ref Node_AStar start, ref Node_AStar target)
@@ -121,5 +129,11 @@ public class ATest : MonoBehaviour
             steering = steering.normalized * maxSeekForce;
             
         return steering;
+    }
+
+    private void OnCollisionEnter(Collision other) 
+    {
+        if(other.gameObject.CompareTag("Ground"))
+            touchDown = true;
     }
 }
