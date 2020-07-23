@@ -10,35 +10,33 @@ public class AStar : MonoBehaviour
         List<Node_AStar> nodesToProcess = new List<Node_AStar>();
         bool[] visited = new bool[graph.Length];
         int[] fromNode = new int[graph.Length];
-        float[] shortestDistanceFromStart = new float[graph.Length];
-        float[] finalCost = new float[graph.Length];
-        Node_AStar current = new Node_AStar();
+        float[] gCost = new float[graph.Length];
+        float[] fCost = new float[graph.Length];
         bool createPath = false;
         
         nodesToProcess.Add(start);
         for (int i = 0; i < graph.Length; i++)
         {
             visited[i] = false;
-            shortestDistanceFromStart[i] = int.MaxValue;
-            finalCost[i] = int.MaxValue;
+            gCost[i] = int.MaxValue;
+            fCost[i] = int.MaxValue;
             fromNode[i] = -1;
         }
-        shortestDistanceFromStart[start.myIndex] = 0;
-        if(start.myHCost < 0)
-            start.myHCost = Vector3.Distance(start.transform.position, target.transform.position);
-        finalCost[start.myIndex] = start.myHCost;
+        gCost[start.myIndex] = 0;
+        start.myHCost = Vector3.Distance(start.transform.position, target.transform.position);
+        fCost[start.myIndex] = start.myHCost;
 
         //Filling in the shortest distances from start and from nodes i.e processing each node
         while (nodesToProcess.Count > 0)
         {
-            float least = int.MaxValue;
+            float least = float.MaxValue;
+            Node_AStar current = null;
             foreach(Node_AStar node in nodesToProcess)
             {
-                if(finalCost[node.myIndex] < least)
+                if(fCost[node.myIndex] < least)
                 {
                     current = node;
-                    if(node.myHCost < 0)
-                        node.myHCost = Vector3.Distance(node.transform.position, target.transform.position);
+                    least = fCost[node.myIndex];
                 }
             }
 
@@ -55,34 +53,29 @@ public class AStar : MonoBehaviour
                 if(!visited[current.connections[i].myIndex])
                 {
                     float temp;
-                    if(graph[current.myIndex][current.connections[i].myIndex] >= 0)
+                    temp = gCost[current.myIndex] + graph[current.myIndex][current.connections[i].myIndex];
+                    if(temp < gCost[current.connections[i].myIndex])
                     {
-                        temp = shortestDistanceFromStart[current.myIndex] + graph[current.myIndex][current.connections[i].myIndex];
-                        if(temp < shortestDistanceFromStart[current.connections[i].myIndex])
-                        {
-                            shortestDistanceFromStart[current.connections[i].myIndex] = temp;
-                            fromNode[current.connections[i].myIndex] = current.myIndex;
+                        gCost[current.connections[i].myIndex] = temp;
+                        fromNode[current.connections[i].myIndex] = current.myIndex;
 
-                            if(current.connections[i].myHCost < 0)
-                                current.connections[i].myHCost = Vector3.Distance(current.connections[i].transform.position, target.transform.position);
-                            finalCost[current.connections[i].myIndex] = shortestDistanceFromStart[current.connections[i].myIndex] + current.connections[i].myHCost;
+                        current.connections[i].myHCost = Vector3.Distance(current.connections[i].transform.position, target.transform.position);
+                        fCost[current.connections[i].myIndex] = gCost[current.connections[i].myIndex] + current.connections[i].myHCost;
 
-                            if(!nodesToProcess.Contains(current.connections[i]))
-                                nodesToProcess.Add(current.connections[i]);
-                        }
+                        if(!nodesToProcess.Contains(current.connections[i]))
+                            nodesToProcess.Add(current.connections[i]);
                     }
                 }
             }
-
             visited[current.myIndex] = true;
         }
 
-        Stack<int> path = new Stack<int>();
         if(createPath)
         {
             //Finding the finalPath
+            Stack<int> path = new Stack<int>();
             int currentIndex = target.myIndex;
-            if(fromNode[currentIndex] >= 0 || current == start)
+            if(fromNode[currentIndex] >= 0 || currentIndex == start.myIndex)
             {
                 while (currentIndex >= 0)
                 {
@@ -96,7 +89,7 @@ public class AStar : MonoBehaviour
         else
         {
             Debug.Log("<color=red>PATH COULD NOT BE FOUND </color>");
-            return path;
+            return null;
         }
     }
 }

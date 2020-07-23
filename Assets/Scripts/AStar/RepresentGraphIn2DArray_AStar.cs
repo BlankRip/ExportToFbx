@@ -53,7 +53,7 @@ public class RepresentGraphIn2DArray_AStar : MonoBehaviour
                     {
                         arrayToFill[i][j] = distanceToNode;
                         currentNode.connections.Add(nodes[j]);
-                        Debug.DrawLine(iPosition, jPosition, Color.green, Mathf.Infinity);
+                        //Debug.DrawLine(iPosition, jPosition, Color.green, Mathf.Infinity);
                     }
                 }
                 else

@@ -12,9 +12,4 @@ public class Node_AStar : MonoBehaviour
     {
         connections = new List<Node_AStar>();
     }
-
-    private void Awake() 
-    {
-        myHCost = -1;        
-    }
 }
