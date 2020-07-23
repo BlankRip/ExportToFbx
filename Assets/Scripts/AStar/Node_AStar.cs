@@ -17,12 +17,4 @@ public class Node_AStar : MonoBehaviour
     {
         connections = new List<Node_AStar>();
     }
-
-    private void Awake() 
-    {
-        visited = false;
-        fromNodeIndex = null;
-        gcost = float.MaxValue;
-        fCost = float.MaxValue;
-    }
 }

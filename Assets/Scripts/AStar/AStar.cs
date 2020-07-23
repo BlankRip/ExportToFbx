@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class AStar : MonoBehaviour
 {
-    public static Stack<int> AStarPath(float[][] graph, Node_AStar start, Node_AStar target)
+    public static Stack<int> AStarPath(float[][] graph, Node_AStar[] allNodes, Node_AStar start, Node_AStar target)
     {
         //Setting up things required to do the algorithim
         List<Node_AStar> nodesToProcess = new List<Node_AStar>();
         bool createPath = false;
         
         nodesToProcess.Add(start);
-        // foreach (Node_AStar node in allNodes)
-        // {
-        //     node.visited = false;
-        //     node.gcost = float.MaxValue;
-        //     node.fCost = float.MaxValue;
-        //     node.fromNodeIndex = null;
-        // }
+        foreach (Node_AStar node in allNodes)
+        {
+            node.visited = false;
+            node.gcost = float.MaxValue;
+            node.fCost = float.MaxValue;
+            node.fromNodeIndex = null;
+        }
         start.gcost = 0;
         start.hCost = Vector3.Distance(start.transform.position, target.transform.position);
         start.fCost = start.hCost;
