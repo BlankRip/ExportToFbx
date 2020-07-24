@@ -286,7 +286,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nearStart: {fileID: 4187357519242197599}
   nearEnd: {fileID: 0}
-  gapBtwPathChecks: 1
+  targetObjLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  gapBtwPathChecks: 1.5
   arriveRadius: 0.1
   maxSeekVelocity: 3
   maxSeekForce: 3

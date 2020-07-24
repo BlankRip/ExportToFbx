@@ -6,6 +6,7 @@ public class ATest : MonoBehaviour
 {   
     Stack<int> finalPath;
     [SerializeField] Transform nearStart, nearEnd;
+    [SerializeField] LayerMask targetObjLayer;
     [SerializeField] float gapBtwPathChecks = 1;
     [SerializeField] float arriveRadius;
     [SerializeField] float maxSeekVelocity;
@@ -22,6 +23,8 @@ public class ATest : MonoBehaviour
         myRb = GetComponent<Rigidbody>();
         touchDown = false;
         previousTIndex = -1;
+
+        finalPath = new Stack<int>();
         StartCoroutine(FindPathAfter());
     }
 
@@ -57,17 +60,31 @@ public class ATest : MonoBehaviour
 
     IEnumerator FindPathAfter()
     {
-        UpdatePathStartNTarget(nearStart, nearEnd, ref start, ref target);
-        if(previousTIndex != target.myIndex)
+        float distance = Vector3.Distance(transform.position, nearEnd.position);
+        RaycastHit hitInfo;
+        if(Physics.Raycast(transform.position, (nearEnd.position - transform.position).normalized, out hitInfo, distance, targetObjLayer) && hitInfo.transform.CompareTag("Player"))
         {
-            previousTIndex = target.myIndex;
-            Debug.Log(start + " , " + target);
-            finalPath = AStar.AStarPath(RepresentGraphIn2DArray_AStar.instance.grapRepresentation, RepresentGraphIn2DArray_AStar.instance.allNodes, start, target);
+            Debug.Log("Nope");
+            while(finalPath.Count > 0)
+                finalPath.Pop();
+            Debug.DrawRay(transform.position, (nearEnd.position - transform.position).normalized, Color.red, 3f);
+            
+        }
+        else
+        {
+            Debug.Log("entered");
+            UpdatePathStartNTarget(nearStart, nearEnd, ref start, ref target);
+            if(previousTIndex != target.myIndex)
+            {
+                previousTIndex = target.myIndex;
+                Debug.Log(start + " , " + target);
+                finalPath = AStar.AStarPath(RepresentGraphIn2DArray_AStar.instance.grapRepresentation, RepresentGraphIn2DArray_AStar.instance.allNodes, start, target);
 
-            noedI = RepresentGraphIn2DArray_AStar.instance.allNodes[finalPath.Peek()].transform.position;
-            noedI.y = transform.position.y;
-            Debug.Log(finalPath.Peek());
-            finalPath.Pop();
+                noedI = RepresentGraphIn2DArray_AStar.instance.allNodes[finalPath.Peek()].transform.position;
+                noedI.y = transform.position.y;
+                Debug.Log(finalPath.Peek());
+                finalPath.Pop();
+            }
         }
 
         yield return new WaitForSeconds(gapBtwPathChecks);
