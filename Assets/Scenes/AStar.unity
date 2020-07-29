@@ -2464,6 +2464,16 @@ PrefabInstance:
       propertyPath: nearEnd
       value: 
       objectReference: {fileID: 3810900}
+    - target: {fileID: 4187357519242197598, guid: 56e371f49a5e6024db0f7337866da114,
+        type: 3}
+      propertyPath: maxSeekVelocity
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187357519242197598, guid: 56e371f49a5e6024db0f7337866da114,
+        type: 3}
+      propertyPath: maxSeekForce
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4187357519242197599, guid: 56e371f49a5e6024db0f7337866da114,
         type: 3}
       propertyPath: m_LocalPosition.x
