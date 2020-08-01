@@ -16,6 +16,5 @@ public class TriggerEvenyt : MonoBehaviour
         currentRb = other.gameObject.GetComponent<Rigidbody>();
         currentRenderer.material = changMatTo;
         currentRb.AddForce(Vector3.up * forceToAdd, ForceMode.Impulse);
-
     }
 }
