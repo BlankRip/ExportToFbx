@@ -5,7 +5,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 public class Binary
 {
 #region Reading and Writing to File
-    static void WriteToFile(object obj, string path, string fileName) {
+    public static void WriteToFile(object obj, string path, string fileName) {
         byte[] objInBinary = ObjectToBinary(obj);
 
         //If path does not exist then creates the path by creating folders needed
@@ -17,7 +17,7 @@ public class Binary
             writer.Write(objInBinary);
     }
 
-    static object ReadFromFile(string path, string fileName) {
+    public static object ReadFromFile(string path, string fileName) {
         //Check if the file existes
         if(File.Exists(path + fileName))
         {
