@@ -37,7 +37,7 @@ public class Binary
     public static byte[] ObjectToBinary(object obj) {
         BinaryFormatter binaryFormat = new BinaryFormatter();      //Binary formatter used to convert to binary
 
-        using(var memoryStream = new MemoryStream())
+        using(MemoryStream memoryStream = new MemoryStream())
         {
             binaryFormat.Serialize(memoryStream, obj);         //Converts to binary
             return memoryStream.ToArray();                    //Making into array of bytes
@@ -48,7 +48,7 @@ public class Binary
     public static object BinaryToObject(byte[] byteArray) {
         BinaryFormatter binaryFormatter = new BinaryFormatter();     //Binary formatter used to convert back to object
 
-        using(var memoryStream = new MemoryStream())
+        using(MemoryStream memoryStream = new MemoryStream())
         {
             memoryStream.Write(byteArray, 0, byteArray.Length);       //Writeing the thing that needes to be converted onto the memory stream
             memoryStream.Seek(0, SeekOrigin.Begin);                   //Sets the position form where the stream needs to be read from

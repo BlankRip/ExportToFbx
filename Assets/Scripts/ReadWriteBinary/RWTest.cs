@@ -6,7 +6,7 @@ using System.IO;
 
 public class RWTest : MonoBehaviour
 {
-    public string pStatsDiractory = "/data/player/";
+    public string pStatsDiractory = "/ExportToFbx/data/player/";
     public string pStatesFileName = "playerStats.data";
     [SerializeField] Text hpText;
     [SerializeField] Text stmText;
@@ -73,21 +73,18 @@ public class RWTest : MonoBehaviour
         stmText.text = "Stamina: " + currentStats.stamina.ToString();
     }
 
-    private void DeletePlayerStatsFile()
-    {
-        string file = Application.temporaryCachePath + pStatsDiractory + pStatesFileName;
+    private void DeletePlayerStatsFile() {
+        string file = Application.persistentDataPath + pStatsDiractory + pStatesFileName;
         File.Delete(file);
     }
 
-    public void WriteToPlayerStats(TestPlayerStats stats)
-    {
-        savePath = Application.temporaryCachePath + pStatsDiractory;
+    public void WriteToPlayerStats(TestPlayerStats stats) {
+        savePath = Application.persistentDataPath + pStatsDiractory;
         Binary.WriteToFile( stats, savePath, pStatesFileName);
     }
 
-    public object ReadFromPlayerStats()
-    {
-        savePath = Application.temporaryCachePath + pStatsDiractory;
+    public object ReadFromPlayerStats() {
+        savePath = Application.persistentDataPath + pStatsDiractory;
         //Debug.Log(savePath);
         return Binary.ReadFromFile(savePath, pStatesFileName);
     }

@@ -731,7 +731,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b86bd7065495e2e47b93e8cf35c89bf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pStatsDiractory: /data/player/
+  pStatsDiractory: /ExportToFbx/data/player/
   pStatesFileName: playerStats.data
   hpText: {fileID: 1499719022}
   stmText: {fileID: 130610773}
