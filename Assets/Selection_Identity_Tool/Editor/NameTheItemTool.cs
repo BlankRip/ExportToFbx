@@ -1,16 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.PackageManager.UI;
-using UnityEditor.Experimental.TerrainAPI;
-using UnityEngine.UI;
 #if UNITY_2019_1 || UNITY_2019_2
 using UnityEngine.Experimental.PlayerLoop;
 #else
 using UnityEngine.PlayerLoop;
 #endif
-using System.Runtime.CompilerServices;
 
 public class NameTheItemTool : EditorWindow
 {
