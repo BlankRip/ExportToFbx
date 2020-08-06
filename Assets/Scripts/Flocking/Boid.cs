@@ -20,7 +20,7 @@ public class Boid : MonoBehaviour
         initialMoveDire.y = 0;
         initialSpeed = Random.Range(minimumVelocity, maximumVelocity);
 
-        rb.velocity = initialMoveDire * initialSpeed;
+        //rb.velocity = initialMoveDire * initialSpeed;
     }
 
     void Update()
