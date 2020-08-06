@@ -376,7 +376,7 @@ MonoBehaviour:
   maxZ: 14
   minZ: -14
   maxInOneQuad: 2
-  numberOfBoidsToSpawn: 30
+  numberOfBoidsToSpawn: 40
 --- !u!1 &1015210788
 GameObject:
   m_ObjectHideFlags: 0

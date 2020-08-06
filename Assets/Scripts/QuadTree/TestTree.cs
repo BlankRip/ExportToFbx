@@ -35,15 +35,47 @@ public class TestTree : MonoBehaviour
         drawGiz = true;
     }
 
+    private void Update() {
+        if(Input.GetKey(KeyCode.W)) {
+            if(testAreaBoundary.y < maxZ) {
+                testAreaBoundary.y += 0.2f;
+                inMyArea = theTree.GetPointsInArea(testAreaBoundary, null);
+                Debug.Log(inMyArea.Count);
+            }
+        }
+        if(Input.GetKey(KeyCode.S)) {
+            if(testAreaBoundary.y > minZ) {
+                testAreaBoundary.y -= 0.2f;
+                inMyArea = theTree.GetPointsInArea(testAreaBoundary, null);
+                Debug.Log(inMyArea.Count);
+            }
+        }
+        if(Input.GetKey(KeyCode.D)) {
+            if(testAreaBoundary.x < maxX) {
+                testAreaBoundary.x += 0.2f;
+                inMyArea = theTree.GetPointsInArea(testAreaBoundary, null);
+                Debug.Log(inMyArea.Count);
+            }
+        }
+        if(Input.GetKey(KeyCode.A)) {
+            if(testAreaBoundary.x > minX) {
+                testAreaBoundary.x -= 0.2f;
+                inMyArea = theTree.GetPointsInArea(testAreaBoundary, null);
+                Debug.Log(inMyArea.Count);
+            }
+        }
+        DebugLines();
+    }
+
     public void DebugLines() {
         Vector3 leftTopCorner = new Vector3(testAreaBoundary.x - testAreaBoundary.width, 0, testAreaBoundary.y + testAreaBoundary.hight);
         Vector3 rightTopCorner = new Vector3(testAreaBoundary.x + testAreaBoundary.width, 0, testAreaBoundary.y + testAreaBoundary.hight);
         Vector3 leftBottomCorner = new Vector3(testAreaBoundary.x - testAreaBoundary.width, 0, testAreaBoundary.y - testAreaBoundary.hight);
         Vector3 rightBottomCorner = new Vector3(testAreaBoundary.x + testAreaBoundary.width, 0, testAreaBoundary.y - testAreaBoundary.hight);
-        Debug.DrawLine(leftTopCorner, leftBottomCorner, Color.green, Mathf.Infinity);
-        Debug.DrawLine(leftBottomCorner, rightBottomCorner, Color.green, Mathf.Infinity);
-        Debug.DrawLine(rightBottomCorner, rightTopCorner, Color.green, Mathf.Infinity);
-        Debug.DrawLine(rightTopCorner, leftTopCorner, Color.green, Mathf.Infinity);
+        Debug.DrawLine(leftTopCorner, leftBottomCorner, Color.green);
+        Debug.DrawLine(leftBottomCorner, rightBottomCorner, Color.green);
+        Debug.DrawLine(rightBottomCorner, rightTopCorner, Color.green);
+        Debug.DrawLine(rightTopCorner, leftTopCorner, Color.green);
     }
 
     private void OnDrawGizmos() {
