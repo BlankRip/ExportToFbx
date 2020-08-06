@@ -20,42 +20,69 @@ public class Rectangle
         else
             return false;
     }
+
+    public bool AreaOverlap(Rectangle area) {
+        if(area.x - area.width > x + width || area.x + area.width < x - width 
+        || area.y - area.hight > y + hight || area.y + area.hight < y - hight)
+            return false;
+        else
+            return true;
+    }
 }
 
 public class Quad
 {
     Rectangle boundary;
     Quad[] subDividedQuads;
-    List<object> objectsInQuad;
+    List<Vector2> pointsInQuad;
     int capacity;
     bool divided;
 
     public Quad(Rectangle boundary, int capacity) {
         this.boundary = boundary;
         this.capacity = capacity;
-        objectsInQuad = new List<object>();
+        pointsInQuad = new List<Vector2>();
         divided = false;
     }
 
-    public bool AndObject(object obj) {
-        Transform currentObj = (Transform) obj;
-        if(!boundary.InMe(new Vector2(currentObj.position.x, currentObj.position.z)))
+    public bool AddPoint(Vector2 point) {
+        if(!boundary.InMe(point))
             return false;
 
-        if(objectsInQuad.Count < capacity) {
-            objectsInQuad.Add(obj);
+        if(pointsInQuad.Count < capacity) {
+            pointsInQuad.Add(point);
             return true;
         } else {
-            if(!divided){
+            if(!divided)
                 SubDevide();
-            }
             
             for (int i = 0; i < subDividedQuads.Length; i++) {
-
-                if(subDividedQuads[i].AndObject(obj))
+                if(subDividedQuads[i].AddPoint(point))
                     return true;
             }
             return false;
+        }
+    }
+
+    public List<Vector2> GetPointsInArea(Rectangle area, List<Vector2> found) {
+        if(found == null)
+            found = new List<Vector2>();
+
+        if(!boundary.AreaOverlap(area))
+            return found;
+        else {
+            foreach (Vector2 point in pointsInQuad)
+            {
+                if(area.InMe(point))
+                    found.Add(point);
+                
+                if(divided) {
+                    for (int i = 0; i < subDividedQuads.Length; i++) {
+                        found = subDividedQuads[i].GetPointsInArea(area, found);
+                    }
+                }
+            }
+            return found;
         }
     }
 
@@ -81,8 +108,7 @@ public class Quad
         divided = true;
     }
 
-    public void DebugLines()
-    {
+    public void DebugLines() {
         Vector3 leftTopCorner = new Vector3(boundary.x - boundary.width, 0, boundary.y + boundary.hight);
         Vector3 rightTopCorner = new Vector3(boundary.x + boundary.width, 0, boundary.y + boundary.hight);
         Vector3 leftBottomCorner = new Vector3(boundary.x - boundary.width, 0, boundary.y - boundary.hight);
