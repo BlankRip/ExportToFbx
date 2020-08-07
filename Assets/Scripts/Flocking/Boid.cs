@@ -6,6 +6,7 @@ public class Boid : MonoBehaviour
 {
     [SerializeField] float minimumVelocity = 4;
     [SerializeField] float maximumVelocity = 9;
+    [SerializeField] bool moveBoid = true;
     float initialSpeed;
     public Rigidbody rb;
     Vector3 initialMoveDire;
@@ -19,8 +20,9 @@ public class Boid : MonoBehaviour
         initialMoveDire = Random.insideUnitSphere;
         initialMoveDire.y = 0;
         initialSpeed = Random.Range(minimumVelocity, maximumVelocity);
-
-        //rb.velocity = initialMoveDire * initialSpeed;
+        
+        if(moveBoid)
+            rb.velocity = initialMoveDire * initialSpeed;
     }
 
     void Update()

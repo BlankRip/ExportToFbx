@@ -28,7 +28,6 @@ public class TestTree : MonoBehaviour
 
         BuildQuadTree();
 
-        theTree.DebugLines();
         DebugLines();
 
         inMyArea = theTree.GetPointsInArea(testAreaBoundary, null);
@@ -39,35 +38,32 @@ public class TestTree : MonoBehaviour
 
     private void Update() {
         BuildQuadTree();
-        
+
         if(Input.GetKey(KeyCode.W)) {
             if(testAreaBoundary.y < maxZ) {
                 testAreaBoundary.y += 0.2f;
-                inMyArea = theTree.GetPointsInArea(testAreaBoundary, null);
                 Debug.Log(inMyArea.Count);
             }
         }
         if(Input.GetKey(KeyCode.S)) {
             if(testAreaBoundary.y > minZ) {
                 testAreaBoundary.y -= 0.2f;
-                inMyArea = theTree.GetPointsInArea(testAreaBoundary, null);
                 Debug.Log(inMyArea.Count);
             }
         }
         if(Input.GetKey(KeyCode.D)) {
             if(testAreaBoundary.x < maxX) {
                 testAreaBoundary.x += 0.2f;
-                inMyArea = theTree.GetPointsInArea(testAreaBoundary, null);
                 Debug.Log(inMyArea.Count);
             }
         }
         if(Input.GetKey(KeyCode.A)) {
             if(testAreaBoundary.x > minX) {
                 testAreaBoundary.x -= 0.2f;
-                inMyArea = theTree.GetPointsInArea(testAreaBoundary, null);
                 Debug.Log(inMyArea.Count);
             }
         }
+        inMyArea = theTree.GetPointsInArea(testAreaBoundary, null);
         DebugLines();
     }
 
@@ -75,9 +71,12 @@ public class TestTree : MonoBehaviour
         theTree = new Quad(initialBoundary, maxInOneQuad);
 
         for (int i = 0; i < allBoids.Count; i++) {
-            Point pointIn2D = new Point(allBoids[i].transform.position.x, allBoids[i].transform.position.z);
+            Point pointIn2D = new Point(allBoids[i].transform.position.x, allBoids[i].transform.position.z, allBoids[i]);
             theTree.AddPoint(pointIn2D);
         }
+
+        
+        theTree.DebugLines();
     }
 
     public void DebugLines() {

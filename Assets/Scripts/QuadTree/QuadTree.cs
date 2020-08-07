@@ -6,10 +6,12 @@ using UnityEngine;
 public class Point 
 {
     public float x, y;
+    public object objectData;
 
-    public Point(float x, float y) {
+    public Point(float x, float y, object obj) {
         this.x = x;
         this.y = y;
+        objectData = obj;
     }
 }
 
@@ -123,10 +125,10 @@ public class Quad
         Vector3 rightTopCorner = new Vector3(boundary.x + boundary.width, 0, boundary.y + boundary.hight);
         Vector3 leftBottomCorner = new Vector3(boundary.x - boundary.width, 0, boundary.y - boundary.hight);
         Vector3 rightBottomCorner = new Vector3(boundary.x + boundary.width, 0, boundary.y - boundary.hight);
-        Debug.DrawLine(leftTopCorner, leftBottomCorner, Color.blue, Mathf.Infinity);
-        Debug.DrawLine(leftBottomCorner, rightBottomCorner, Color.blue, Mathf.Infinity);
-        Debug.DrawLine(rightBottomCorner, rightTopCorner, Color.blue, Mathf.Infinity);
-        Debug.DrawLine(rightTopCorner, leftTopCorner, Color.blue, Mathf.Infinity);
+        Debug.DrawLine(leftTopCorner, leftBottomCorner, Color.blue);
+        Debug.DrawLine(leftBottomCorner, rightBottomCorner, Color.blue);
+        Debug.DrawLine(rightBottomCorner, rightTopCorner, Color.blue);
+        Debug.DrawLine(rightTopCorner, leftTopCorner, Color.blue);
 
         if(divided) {
             for (int i = 0; i < subDividedQuads.Length; i++)
