@@ -3,6 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+public class Point 
+{
+    public float x, y;
+
+    public Point(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
 public class Rectangle
 {
     public float x,y, width,hight;
@@ -14,7 +24,7 @@ public class Rectangle
         hight = halfHight;
     }
 
-    public bool InMe(Vector2 point) {
+    public bool InMe(Point point) {
         if(point.x > x - width && point.x < x + width && point.y > y - hight && point.y < y + hight)
             return true;
         else
@@ -34,18 +44,18 @@ public class Quad
 {
     Rectangle boundary;
     Quad[] subDividedQuads;
-    List<Vector2> pointsInQuad;
+    List<Point> pointsInQuad;
     int capacity;
     bool divided;
 
     public Quad(Rectangle boundary, int capacity) {
         this.boundary = boundary;
         this.capacity = capacity;
-        pointsInQuad = new List<Vector2>();
+        pointsInQuad = new List<Point>();
         divided = false;
     }
 
-    public bool AddPoint(Vector2 point) {
+    public bool AddPoint(Point point) {
         if(!boundary.InMe(point))
             return false;
 
@@ -64,14 +74,14 @@ public class Quad
         }
     }
 
-    public List<Vector2> GetPointsInArea(Rectangle area, List<Vector2> found) {
+    public List<Point> GetPointsInArea(Rectangle area, List<Point> found) {
         if(found == null)
-            found = new List<Vector2>();
+            found = new List<Point>();
 
         if(!boundary.AreaOverlap(area))
             return found;
         else {
-            foreach (Vector2 point in pointsInQuad)
+            foreach (Point point in pointsInQuad)
             {
                 if(area.InMe(point))
                     found.Add(point);

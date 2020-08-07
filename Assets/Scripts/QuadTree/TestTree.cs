@@ -11,20 +11,22 @@ public class TestTree : MonoBehaviour
     Rectangle initialBoundary;
     Quad theTree;
     bool drawGiz;
-    List<Vector2> inMyArea;
+    List<Point> inMyArea;
+    List<Boid> allBoids;
 
     private void Start() {
         initialBoundary = new Rectangle(0, 0, maxX, maxZ);
         testAreaBoundary = new Rectangle(Random.Range(minX + 4, maxX - 4),Random.Range(minZ + 4, maxZ - 4), 5,5);
-        theTree = new Quad(initialBoundary, maxInOneQuad);
+        allBoids = new List<Boid>();
 
         for (int i = 0; i < numberOfBoidsToSpawn; i++)
         {
             Vector3 spawnPos = new Vector3(Random.Range(minX, maxX), 0, Random.Range(minZ, maxZ));
-            Transform boidTransform = Instantiate(boidPrefab, spawnPos, Quaternion.identity).GetComponent<Transform>();
-            Vector2 pointIn2D = new Vector2(boidTransform.position.x, boidTransform.position.z);
-            theTree.AddPoint(pointIn2D);
+            Boid boid = Instantiate(boidPrefab, spawnPos, Quaternion.identity).GetComponent<Boid>();
+            allBoids.Add(boid);
         }
+
+        BuildQuadTree();
 
         theTree.DebugLines();
         DebugLines();
@@ -36,6 +38,8 @@ public class TestTree : MonoBehaviour
     }
 
     private void Update() {
+        BuildQuadTree();
+        
         if(Input.GetKey(KeyCode.W)) {
             if(testAreaBoundary.y < maxZ) {
                 testAreaBoundary.y += 0.2f;
@@ -65,6 +69,15 @@ public class TestTree : MonoBehaviour
             }
         }
         DebugLines();
+    }
+
+    private void BuildQuadTree() {
+        theTree = new Quad(initialBoundary, maxInOneQuad);
+
+        for (int i = 0; i < allBoids.Count; i++) {
+            Point pointIn2D = new Point(allBoids[i].transform.position.x, allBoids[i].transform.position.z);
+            theTree.AddPoint(pointIn2D);
+        }
     }
 
     public void DebugLines() {
