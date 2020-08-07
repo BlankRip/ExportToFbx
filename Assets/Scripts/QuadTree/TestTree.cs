@@ -70,11 +70,8 @@ public class TestTree : MonoBehaviour
     private void BuildQuadTree() {
         theTree = new Quad(initialBoundary, maxInOneQuad);
 
-        for (int i = 0; i < allBoids.Count; i++) {
-            Point pointIn2D = new Point(allBoids[i].transform.position.x, allBoids[i].transform.position.z, allBoids[i]);
-            theTree.AddPoint(pointIn2D);
-        }
-
+        for (int i = 0; i < allBoids.Count; i++)
+            theTree.AddPoint(allBoids[i].myPoint);
         
         theTree.DebugLines();
     }

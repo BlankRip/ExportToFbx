@@ -14,12 +14,19 @@ public class Boid : MonoBehaviour
     Vector3 saperationForce;
     Vector3 cohesionForce;
 
+    public Point myPoint;
+
+    public Boid () {
+        myPoint = new Point(0, 0, this);
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         initialMoveDire = Random.insideUnitSphere;
         initialMoveDire.y = 0;
         initialSpeed = Random.Range(minimumVelocity, maximumVelocity);
+        UpdatePointData();
         
         if(moveBoid)
             rb.velocity = initialMoveDire * initialSpeed;
@@ -27,6 +34,7 @@ public class Boid : MonoBehaviour
 
     void Update()
     {
+        UpdatePointData();
         Debug.DrawRay(transform.position, rb.velocity.normalized, Color.red);
         alignmentForce = Flocking.instance.Alignemnt(this) * Flocking.instance.alignmentStrength;
         saperationForce = Flocking.instance.Saperation(this) * Flocking.instance.saperationStrength;
@@ -40,5 +48,10 @@ public class Boid : MonoBehaviour
             transform.position = new Vector3((transform.position.x/Mathf.Abs(transform.position.x)) * 26.5f * -1, transform.position.y, transform.position.z);
         if(transform.position.z > 17 || transform.position.z < -17)
             transform.position = new Vector3(transform.position.x, transform.position.y, (transform.position.z/Mathf.Abs(transform.position.z)) * 16.5f * -1);
+    }
+
+    private void UpdatePointData() {
+        myPoint.x = transform.position.x;
+        myPoint.y = transform.position.z;
     }
 }
