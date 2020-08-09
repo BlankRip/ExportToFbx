@@ -17,6 +17,17 @@ public class QuadTree
         rootQuad.AddPoint(pointToAdd);
     }
 
+    public List<object> ReturnObjectsInArea(float areaCenterX, float areaCenterY, float areaHalfHight, float areaHalfWidth) {
+        Rectangle area = new Rectangle(areaCenterX, areaCenterY, areaHalfHight, areaHalfWidth);
+        List<Point> points = rootQuad.GetPointsInArea(area, null);
+        List<object> objsInArea = new List<object>();
+        foreach (Point point in points) {
+            objsInArea.Add(point.objectData);
+        }
+        return objsInArea;
+        
+    }
+
     public void ClearTree() {
         rootQuad.Clear();
     }
@@ -160,6 +171,7 @@ public class Quad
             for (int i = 0; i < subDividedQuads.Length; i++)
                     subDividedQuads[i].Clear();
         }
+        divided = false;
         subDividedQuads = null;
     }
 

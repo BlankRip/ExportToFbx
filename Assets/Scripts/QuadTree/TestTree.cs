@@ -8,16 +8,15 @@ public class TestTree : MonoBehaviour
     [SerializeField] float yValue, maxX, minX, maxZ, minZ;
     [SerializeField] int maxInOneQuad = 4, numberOfBoidsToSpawn = 20;
     Rectangle testAreaBoundary;
-    Rectangle initialBoundary;
-    Quad theTree;
+    QuadTree theTree;
     bool drawGiz;
-    List<Point> inMyArea;
+    List<Boid> inMyArea;
     List<Boid> allBoids;
 
     private void Start() {
-        initialBoundary = new Rectangle(0, 0, maxX, maxZ);
-        testAreaBoundary = new Rectangle(Random.Range(minX + 4, maxX - 4),Random.Range(minZ + 4, maxZ - 4), 5,5);
         allBoids = new List<Boid>();
+        inMyArea = new List<Boid>();
+        testAreaBoundary = new Rectangle(Random.Range(minX + 4, maxX - 4),Random.Range(minZ + 4, maxZ - 4), 5,5);
 
         for (int i = 0; i < numberOfBoidsToSpawn; i++)
         {
@@ -25,11 +24,16 @@ public class TestTree : MonoBehaviour
             Boid boid = Instantiate(boidPrefab, spawnPos, Quaternion.identity).GetComponent<Boid>();
             allBoids.Add(boid);
         }
+        theTree = new QuadTree();
+        theTree.InitilizeTree(0, 0, maxX, maxZ, maxInOneQuad);
 
-        Quad.debugEvent += DebugLinesQuads;
-        BuildQuadTree();
+        theTree.debugEvent += DebugLinesQuads;
+        for (int i = 0; i < allBoids.Count; i++)
+            theTree.AddObjectToTree(allBoids[i].transform.position.x, allBoids[i].transform.position.z, allBoids[i]);
+        
+        theTree.DebugTree();
 
-        inMyArea = theTree.GetPointsInArea(testAreaBoundary, null);
+        ConvertObjsFromTree();
         for (int i = 0; i < inMyArea.Count; i++)
             Debug.Log(inMyArea[i]);
         drawGiz = true;
@@ -62,17 +66,25 @@ public class TestTree : MonoBehaviour
                 Debug.Log(inMyArea.Count);
             }
         }
-        inMyArea = theTree.GetPointsInArea(testAreaBoundary, null);
+        ConvertObjsFromTree();
         DebugLines();
     }
 
     private void BuildQuadTree() {
-        theTree = new Quad(initialBoundary, maxInOneQuad);
+        theTree.ClearTree();
 
         for (int i = 0; i < allBoids.Count; i++)
-            theTree.AddPoint(allBoids[i].myPoint);
+            theTree.AddObjectToTree(allBoids[i].transform.position.x, allBoids[i].transform.position.z, allBoids[i]);
         
-        theTree.DebugLines();
+        theTree.DebugTree();
+    }
+
+    private void ConvertObjsFromTree() {
+        List<object> objsInArea = theTree.ReturnObjectsInArea(testAreaBoundary.x, testAreaBoundary.y, testAreaBoundary.hight, testAreaBoundary.width);
+        inMyArea.Clear();
+        foreach (object obj in objsInArea) {
+            inMyArea.Add((Boid)obj);
+        }
     }
 
     public void DebugLinesQuads(Rectangle boundary) {
@@ -100,7 +112,7 @@ public class TestTree : MonoBehaviour
     private void OnDrawGizmos() {
         if(drawGiz) {
             for (int i = 0; i < inMyArea.Count; i++){
-                Vector3 center = new Vector3(inMyArea[i].x, 0, inMyArea[i].y);
+                Vector3 center = new Vector3(inMyArea[i].transform.position.x, 0, inMyArea[i].transform.position.z);
                 Gizmos.DrawSphere(center, 0.6f);
             }
         }
