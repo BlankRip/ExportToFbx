@@ -1,27 +1,27 @@
 ﻿using System.Collections.Generic;
 
 
-public class QuadTree 
+public class QuadTree_Test 
 {
-    public delegate void DebuggingEvent(Rectangle rectangle);
+    public delegate void DebuggingEvent(Rectangle_Test rectangle);
     public DebuggingEvent debugEvent;
-    public Quad rootQuad;
+    public Quad_Test rootQuad;
 
     public void InitilizeTree(float rectangelCenterX, float rectangelCenterY, float rectangelHalfHight, float rectangelHalfWidth, int sectionCapacity) {
-        Rectangle quadRectangel = new Rectangle(rectangelCenterX, rectangelCenterY, rectangelHalfHight, rectangelHalfWidth);
-        rootQuad = new Quad(quadRectangel, sectionCapacity);
+        Rectangle_Test quadRectangel = new Rectangle_Test(rectangelCenterX, rectangelCenterY, rectangelHalfHight, rectangelHalfWidth);
+        rootQuad = new Quad_Test(quadRectangel, sectionCapacity);
     }
 
     public void AddObjectToTree(float objectPositionX, float objectPositionY, object obj) {
-        Point pointToAdd = new Point(objectPositionX, objectPositionY, obj);
+        Point_Test pointToAdd = new Point_Test(objectPositionX, objectPositionY, obj);
         rootQuad.AddPoint(pointToAdd);
     }
 
     public List<object> ReturnObjectsInArea(float areaCenterX, float areaCenterY, float areaHalfHight, float areaHalfWidth) {
-        Rectangle area = new Rectangle(areaCenterX, areaCenterY, areaHalfHight, areaHalfWidth);
-        List<Point> points = rootQuad.GetPointsInArea(area, null);
+        Rectangle_Test area = new Rectangle_Test(areaCenterX, areaCenterY, areaHalfHight, areaHalfWidth);
+        List<Point_Test> points = rootQuad.GetPointsInArea(area, null);
         List<object> objsInArea = new List<object>();
-        foreach (Point point in points) {
+        foreach (Point_Test point in points) {
             objsInArea.Add(point.objectData);
         }
         return objsInArea;
@@ -43,37 +43,36 @@ public class QuadTree
 }
 
 
-public class Point 
+public class Point_Test 
 {
     public float x, y;
     public object objectData;
 
-    public Point(float x, float y, object obj) {
+    public Point_Test(float x, float y, object obj) {
         this.x = x;
         this.y = y;
         objectData = obj;
     }
 }
 
-public class Rectangle
+public class Rectangle_Test
 {
     public float x,y, width,hight;
-    public Rectangle(float x, float y, float halfWidth, float halfHight)
-    {
+    public Rectangle_Test(float x, float y, float halfWidth, float halfHight) {
         this.x = x;
         this.y = y;
         width = halfWidth;
         hight = halfHight;
     }
 
-    public bool InMe(Point point) {
+    public bool InMe(Point_Test point) {
         if(point.x > x - width && point.x < x + width && point.y > y - hight && point.y < y + hight)
             return true;
         else
             return false;
     }
 
-    public bool AreaOverlap(Rectangle area) {
+    public bool AreaOverlap(Rectangle_Test area) {
         if(area.x - area.width > x + width || area.x + area.width < x - width 
         || area.y - area.hight > y + hight || area.y + area.hight < y - hight)
             return false;
@@ -82,22 +81,22 @@ public class Rectangle
     }
 }
 
-public class Quad
+public class Quad_Test
 {
-    Rectangle boundary;
-    Quad[] subDividedQuads;
-    List<Point> pointsInQuad;
+    Rectangle_Test boundary;
+    Quad_Test[] subDividedQuads;
+    List<Point_Test> pointsInQuad;
     int capacity;
     bool divided;
 
-    public Quad(Rectangle boundary, int capacity) {
+    public Quad_Test(Rectangle_Test boundary, int capacity) {
         this.boundary = boundary;
         this.capacity = capacity;
-        pointsInQuad = new List<Point>();
+        pointsInQuad = new List<Point_Test>();
         divided = false;
     }
 
-    public bool AddPoint(Point point) {
+    public bool AddPoint(Point_Test point) {
         if(!boundary.InMe(point))
             return false;
 
@@ -116,14 +115,14 @@ public class Quad
         }
     }
 
-    public List<Point> GetPointsInArea(Rectangle area, List<Point> found) {
+    public List<Point_Test> GetPointsInArea(Rectangle_Test area, List<Point_Test> found) {
         if(found == null)
-            found = new List<Point>();
+            found = new List<Point_Test>();
 
         if(!boundary.AreaOverlap(area))
             return found;
         else {
-            foreach (Point point in pointsInQuad)
+            foreach (Point_Test point in pointsInQuad)
             {
                 if(area.InMe(point))
                     found.Add(point);
@@ -139,23 +138,23 @@ public class Quad
     }
 
     private void SubDevide() {
-        subDividedQuads = new Quad[4];
+        subDividedQuads = new Quad_Test[4];
         float xCenter = boundary.x;
         float yCenter = boundary.y;
         float xShift = boundary.width/2;
         float yShift = boundary.hight/2;
 
-        Rectangle quadrant0 = new Rectangle(xCenter + xShift, yCenter + yShift, xShift, yShift);
-        subDividedQuads[0] = new Quad(quadrant0, capacity);
+        Rectangle_Test quadrant0 = new Rectangle_Test(xCenter + xShift, yCenter + yShift, xShift, yShift);
+        subDividedQuads[0] = new Quad_Test(quadrant0, capacity);
 
-        Rectangle quadrant1 = new Rectangle(xCenter - xShift, yCenter + yShift, xShift, yShift);
-        subDividedQuads[1] = new Quad(quadrant1, capacity);
+        Rectangle_Test quadrant1 = new Rectangle_Test(xCenter - xShift, yCenter + yShift, xShift, yShift);
+        subDividedQuads[1] = new Quad_Test(quadrant1, capacity);
 
-        Rectangle quadrant2 = new Rectangle(xCenter - xShift, yCenter - yShift, xShift, yShift);
-        subDividedQuads[2] = new Quad(quadrant2, capacity);
+        Rectangle_Test quadrant2 = new Rectangle_Test(xCenter - xShift, yCenter - yShift, xShift, yShift);
+        subDividedQuads[2] = new Quad_Test(quadrant2, capacity);
 
-        Rectangle quadrant3 = new Rectangle(xCenter + xShift, yCenter - yShift, xShift, yShift);
-        subDividedQuads[3] = new Quad(quadrant3, capacity);
+        Rectangle_Test quadrant3 = new Rectangle_Test(xCenter + xShift, yCenter - yShift, xShift, yShift);
+        subDividedQuads[3] = new Quad_Test(quadrant3, capacity);
 
         divided = true;
     }
@@ -170,7 +169,7 @@ public class Quad
         subDividedQuads = null;
     }
 
-    public void DebugLines(QuadTree.DebuggingEvent dEvent) {
+    public void DebugLines(QuadTree_Test.DebuggingEvent dEvent) {
         dEvent.Invoke(boundary);
         if(divided) {
             for (int i = 0; i < subDividedQuads.Length; i++)
