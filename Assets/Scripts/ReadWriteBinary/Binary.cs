@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using System.IO;
+﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
 public class Binary
@@ -25,10 +24,7 @@ public class Binary
             return obj;
         }
         else
-        {
-            Debug.Log("<color=red> THE FILE YOU ARE TRYING TO READ DOES NOT EXIST </color>");
-            return null;
-        }
+            throw new System.Exception("THE FILE YOU ARE TRYING TO READ DOES NOT EXIST");
     }
 #endregion
 

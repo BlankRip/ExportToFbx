@@ -26,9 +26,8 @@ public class TestTree : MonoBehaviour
             allBoids.Add(boid);
         }
 
+        Quad.debugEvent += DebugLinesQuads;
         BuildQuadTree();
-
-        DebugLines();
 
         inMyArea = theTree.GetPointsInArea(testAreaBoundary, null);
         for (int i = 0; i < inMyArea.Count; i++)
@@ -74,6 +73,17 @@ public class TestTree : MonoBehaviour
             theTree.AddPoint(allBoids[i].myPoint);
         
         theTree.DebugLines();
+    }
+
+    public void DebugLinesQuads(Rectangle boundary) {
+        Vector3 leftTopCorner = new Vector3(boundary.x - boundary.width, 0, boundary.y + boundary.hight);
+        Vector3 rightTopCorner = new Vector3(boundary.x + boundary.width, 0, boundary.y + boundary.hight);
+        Vector3 leftBottomCorner = new Vector3(boundary.x - boundary.width, 0, boundary.y - boundary.hight);
+        Vector3 rightBottomCorner = new Vector3(boundary.x + boundary.width, 0, boundary.y - boundary.hight);
+        Debug.DrawLine(leftTopCorner, leftBottomCorner, Color.blue);
+        Debug.DrawLine(leftBottomCorner, rightBottomCorner, Color.blue);
+        Debug.DrawLine(rightBottomCorner, rightTopCorner, Color.blue);
+        Debug.DrawLine(rightTopCorner, leftTopCorner, Color.blue);
     }
 
     public void DebugLines() {

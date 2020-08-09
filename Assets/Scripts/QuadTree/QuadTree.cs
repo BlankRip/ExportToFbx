@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 
 public class Point 
@@ -44,6 +42,10 @@ public class Rectangle
 
 public class Quad
 {
+    public delegate void DeBuggingEvent(Rectangle rectangle);
+    public static DeBuggingEvent debugEvent;
+
+
     Rectangle boundary;
     Quad[] subDividedQuads;
     List<Point> pointsInQuad;
@@ -121,18 +123,12 @@ public class Quad
     }
 
     public void DebugLines() {
-        Vector3 leftTopCorner = new Vector3(boundary.x - boundary.width, 0, boundary.y + boundary.hight);
-        Vector3 rightTopCorner = new Vector3(boundary.x + boundary.width, 0, boundary.y + boundary.hight);
-        Vector3 leftBottomCorner = new Vector3(boundary.x - boundary.width, 0, boundary.y - boundary.hight);
-        Vector3 rightBottomCorner = new Vector3(boundary.x + boundary.width, 0, boundary.y - boundary.hight);
-        Debug.DrawLine(leftTopCorner, leftBottomCorner, Color.blue);
-        Debug.DrawLine(leftBottomCorner, rightBottomCorner, Color.blue);
-        Debug.DrawLine(rightBottomCorner, rightTopCorner, Color.blue);
-        Debug.DrawLine(rightTopCorner, leftTopCorner, Color.blue);
-
-        if(divided) {
-            for (int i = 0; i < subDividedQuads.Length; i++)
-                subDividedQuads[i].DebugLines();
+        if(debugEvent != null) {
+            debugEvent.Invoke(boundary);
+            if(divided) {
+                for (int i = 0; i < subDividedQuads.Length; i++)
+                    subDividedQuads[i].DebugLines();
+            }
         }
     }
 }

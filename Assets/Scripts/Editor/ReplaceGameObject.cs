@@ -39,10 +39,8 @@ public class ReplaceGameObject : EditorWindow
 
         string prefabType = PrefabUtility.GetPrefabAssetType(replacementObject).ToString();
         string instanceStatus = null;
-        //Debug.Log(prefabType);
         if(prefabType == "Regular")
             instanceStatus = PrefabUtility.GetPrefabInstanceStatus(replacementObject).ToString();
-        //Debug.Log(instanceStatus);
         
         List<GameObject> newSelected = new List<GameObject>();
 
