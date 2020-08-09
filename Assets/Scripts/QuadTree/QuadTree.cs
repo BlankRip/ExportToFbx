@@ -34,9 +34,7 @@ public class QuadTree
 
     public void DebugTree() {
         if(debugEvent != null) {
-            if(Quad.debugEvent == null)
-                Quad.debugEvent += this.debugEvent;
-            rootQuad.DebugLines();
+            rootQuad.DebugLines(debugEvent);
         }
         else
             throw new System.Exception("The QuadTree does not have it's debug event subscribed");
@@ -86,9 +84,6 @@ public class Rectangle
 
 public class Quad
 {
-    public static QuadTree.DebuggingEvent debugEvent;
-
-
     Rectangle boundary;
     Quad[] subDividedQuads;
     List<Point> pointsInQuad;
@@ -175,13 +170,11 @@ public class Quad
         subDividedQuads = null;
     }
 
-    public void DebugLines() {
-        if(debugEvent != null) {
-            debugEvent.Invoke(boundary);
-            if(divided) {
-                for (int i = 0; i < subDividedQuads.Length; i++)
-                    subDividedQuads[i].DebugLines();
-            }
+    public void DebugLines(QuadTree.DebuggingEvent dEvent) {
+        dEvent.Invoke(boundary);
+        if(divided) {
+            for (int i = 0; i < subDividedQuads.Length; i++)
+                subDividedQuads[i].DebugLines(dEvent);
         }
     }
 }
