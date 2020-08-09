@@ -111,4 +111,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minimumVelocity: 4
   maximumVelocity: 9
+  moveBoid: 1
   rb: {fileID: 0}
