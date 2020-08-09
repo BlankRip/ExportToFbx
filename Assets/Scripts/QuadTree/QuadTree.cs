@@ -1,6 +1,39 @@
 ﻿using System.Collections.Generic;
 
 
+public class QuadTree 
+{
+    public delegate void DebuggingEvent(Rectangle rectangle);
+    public DebuggingEvent debugEvent;
+    public Quad rootQuad;
+
+    public void InitilizeTree(float rectangelCenterX, float rectangelCenterY, float rectangelHalfHight, float rectangelHalfWidth, int sectionCapacity) {
+        Rectangle quadRectangel = new Rectangle(rectangelCenterX, rectangelCenterY, rectangelHalfHight, rectangelHalfWidth);
+        rootQuad = new Quad(quadRectangel, sectionCapacity);
+    }
+
+    public void AddObjectToTree(float objectPositionX, float objectPositionY, object obj) {
+        Point pointToAdd = new Point(objectPositionX, objectPositionY, obj);
+        rootQuad.AddPoint(pointToAdd);
+    }
+
+    public void ClearTree() {
+        rootQuad.Clear();
+    }
+
+    public void DebugTree() {
+        if(debugEvent != null) {
+            if(Quad.debugEvent == null)
+                Quad.debugEvent += this.debugEvent;
+            rootQuad.DebugLines();
+        }
+        else
+            throw new System.Exception("The QuadTree does not have it's debug event subscribed");
+    }
+
+}
+
+
 public class Point 
 {
     public float x, y;
@@ -42,8 +75,7 @@ public class Rectangle
 
 public class Quad
 {
-    public delegate void DeBuggingEvent(Rectangle rectangle);
-    public static DeBuggingEvent debugEvent;
+    public static QuadTree.DebuggingEvent debugEvent;
 
 
     Rectangle boundary;
@@ -120,6 +152,15 @@ public class Quad
         subDividedQuads[3] = new Quad(quadrant3, capacity);
 
         divided = true;
+    }
+
+    public void Clear() {
+        pointsInQuad.Clear();
+        if(divided) {
+            for (int i = 0; i < subDividedQuads.Length; i++)
+                    subDividedQuads[i].Clear();
+        }
+        subDividedQuads = null;
     }
 
     public void DebugLines() {
