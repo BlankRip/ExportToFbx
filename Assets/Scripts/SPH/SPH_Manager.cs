@@ -1,0 +1,64 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class SPH_Manager : MonoBehaviour
+{
+    [Header("Drop or single particle data")]
+    [SerializeField] GameObject dropPrefab;
+    [SerializeField] float radius;
+    [SerializeField] float mass;
+    [SerializeField] float resetDensity;
+    [SerializeField] float viscosity;
+    [SerializeField] float drag;
+
+    [Header("Simulation data")]
+    [SerializeField] bool wallsUp;
+    [SerializeField] int amount;
+    [SerializeField] int perRow;
+    [SerializeField] List<GameObject> walls;
+
+    [Header("Physic's Constands of the game")]
+    [SerializeField] float smoothiningRadius = 1;
+    [SerializeField] float gravityY = -9.81f;
+    [SerializeField] float gravityMultiplicator = 2000;
+    [SerializeField] float gas = 2000;
+    [SerializeField] float damping = -0.5f;
+    private float deltaTime = 0;
+    private Vector3 gravity;
+
+    private SPH_Particle[] particles;
+    private SPH_ParticleCollider[] particleColliders;
+    private bool clearing;
+
+    private void Awake() {
+        gravity = new Vector3(0, gravityY, 0);
+    }
+
+    private void InitilizeSimulation() {
+        particles = new SPH_Particle[amount];
+
+        for (int i = 0; i < particles.Length; i++) {
+            float x = (i % perRow) + Random.Range(-0.1f, 0.1f);
+            float y = (2 * radius) + ((i /perRow) / perRow) * 1.1f;
+            float z = ((i / perRow) % perRow) + Random.Range(-0.1f, 0.1f);
+
+            GameObject currentGameObject = Instantiate(dropPrefab);
+            SPH_Particle currentParticle = currentGameObject.AddComponent<SPH_Particle>();
+            particles[i] = currentParticle;
+
+            currentGameObject.transform.localScale = Vector3.one * radius;
+            currentGameObject.transform.position = new Vector3(x, y, z);
+
+            currentParticle.particleObj = currentGameObject;
+            currentParticle.position = currentGameObject.transform.position;
+        }
+    }
+
+    private float CalculateDensity (SPH_Particle currentParticle, float distance) {
+        if(distance < smoothiningRadius)
+            currentParticle.density += mass * (315 / (64 * Mathf.PI * Mathf.Pow(smoothiningRadius, 9))) * Mathf.Pow(smoothiningRadius -distance, 3);
+        
+        return currentParticle.density;
+    }
+}
