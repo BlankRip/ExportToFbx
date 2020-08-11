@@ -32,7 +32,7 @@ public class SPH_Manager : MonoBehaviour
     private bool clearing;
 
     private void Awake() {
-        gravity = new Vector3(0, gravityY, 0);
+        gravity = new Vector3(0, gravityY, 0) * gravityMultiplicator;
     }
 
     private void InitilizeSimulation() {
@@ -55,10 +55,91 @@ public class SPH_Manager : MonoBehaviour
         }
     }
 
+#region Kinematics (Movement)
+    private void CalculateMovment() {
+        for (int i = 0; i < particles.Length; i++) {
+            if(clearing)
+                return;
+            
+            Vector3 pressureForce = Vector3.zero;
+            Vector3 viscosityForce = Vector3.zero;
+
+            for (int j = 0; j < particles.Length; j++) {
+                if(i == j)
+                    continue;
+                
+                Vector3 direction = particles[j].position = particles[i].position;
+                float distance = direction.magnitude;
+
+                pressureForce += CalculatePressure(particles[i], particles[j], direction, distance);
+                viscosityForce += CalculateViscosity(particles[i], particles[j], distance);
+            }
+
+            Vector3 gravitationalForce = gravity * particles[i].density;
+
+            particles[i].combinedForce = pressureForce + viscosityForce + gravitationalForce;
+            particles[i].velocity += (particles[i].combinedForce / particles[i].density) * deltaTime;
+            particles[i].position += particles[i].velocity * deltaTime;
+            particles[i].particleObj.transform.position = particles[i].position;
+        }
+    }
     private float CalculateDensity (SPH_Particle currentParticle, float distance) {
         if(distance < smoothiningRadius)
             currentParticle.density += mass * (315 / (64 * Mathf.PI * Mathf.Pow(smoothiningRadius, 9))) * Mathf.Pow(smoothiningRadius -distance, 3);
         
         return currentParticle.density;
     }
+
+    #region Force Calculation Functions
+    private void CalculateForce() {
+        for (int i = 0; i < particles.Length; i++) {
+            if(clearing)
+                return;
+            
+            for (int j = 0; j < particles.Length; j++) {
+                float distance = (particles[j].position - particles[i].position).magnitude;
+                particles[i].density += CalculateDensity(particles[i], distance);
+                particles[i].pressure += gas * (particles[i].density - resetDensity);
+            }
+        }
+    }
+    
+    private Vector3 CalculatePressure(SPH_Particle currentParticle, SPH_Particle otherParticle, Vector3 direction, float distance) {
+        if(distance < smoothiningRadius) {
+            Vector3 pressure = -1 * (direction.normalized) * mass * (currentParticle.pressure + otherParticle.pressure)/ (2 * otherParticle.density) * 
+            (-45 / (Mathf.PI * Mathf.Pow(smoothiningRadius, 6))) * Mathf.Pow(smoothiningRadius - distance, 2);
+
+            return pressure;
+        }
+        
+        return Vector3.zero;
+    }
+
+    private Vector3 CalculateViscosity(SPH_Particle currentParticle, SPH_Particle otherParticle, float distance) {
+        if(distance < smoothiningRadius) {
+            Vector3 viscosity = this.viscosity * mass * (otherParticle.velocity - currentParticle.velocity) / otherParticle.density *
+                (45 / (Mathf.PI *  Mathf.Pow(smoothiningRadius, 6))) * (smoothiningRadius - distance);
+            
+            return viscosity;
+        }
+
+        return Vector3.zero;
+    }
+    #endregion
+#endregion
+
+    private void CalculateCollisions() {
+        for (int i = 0; i < particles.Length; i++) {
+            for (int j = 0; j < particleColliders.Length; j++) {
+                if(clearing || particleColliders.Length == 0)
+                    return;
+
+                Vector3 penetrationNormal;
+                Vector3 penetrationPosition;
+                float penetrationLength;
+            }
+        }
+    }
+
+
 }

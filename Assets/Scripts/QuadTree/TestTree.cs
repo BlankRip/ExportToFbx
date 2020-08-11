@@ -13,6 +13,7 @@ public class TestTree : MonoBehaviour
     bool drawGiz;
     List<Boid> inMyArea;
     List<Boid> allBoids;
+    
 
     private void Start() {
         allBoids = new List<Boid>();
