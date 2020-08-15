@@ -32,7 +32,7 @@ public class TestKinematics : MonoBehaviour
 
         for (int i = 0; i < testSegments.Length; i++) {
             testSegments[i].UpdateSegment();
-            float randomAngelChange = Random.Range(0.3f, 3);
+            float randomAngelChange = Random.Range(0.1f, 0.2f);
             testSegments[i].ChangeSegmentAngle(randomAngelChange * Mathf.Deg2Rad);
             testSegments[i].DrawSegment();
         }

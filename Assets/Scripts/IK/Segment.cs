@@ -39,7 +39,7 @@ public class Segment
 
     public void CalculateSegmentEnd() {
         float dx = length * Mathf.Cos(angle);
-        float dy = length * Mathf.Sign(angle);
+        float dy = length * Mathf.Sin(angle);
 
         end = new Vector2(start.x + dx, start.y + dy);
     }
