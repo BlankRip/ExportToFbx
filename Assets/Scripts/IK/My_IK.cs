@@ -7,6 +7,7 @@ public class My_IK : MonoBehaviour
     [SerializeField] Transform target;
     [SerializeField] GameObject segmentPrefab;
     [SerializeField] Vector3 basePostion;
+    [SerializeField] bool fixedBase;
 
     [SerializeField] int numberOfSegments = 3;
     [SerializeField] float segmentLength = 1;
@@ -40,5 +41,10 @@ public class My_IK : MonoBehaviour
 
         for (int i = segments.Length - 2; i >= 0; i--)
             segments[i].MoveToPosition(segments[i + 1], segmentLength);
+        if(fixedBase) {
+            segments[0].transform.position = basePostion;
+            for (int i = 1; i < segments.Length; i++)
+                segments[i].transform.position = segments[i-1].transform.position + (segments[i-1].transform.forward * segmentLength * 2);
+        }
     }
 }
