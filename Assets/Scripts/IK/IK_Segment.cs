@@ -12,7 +12,7 @@ public class IK_Segment : MonoBehaviour
         segmentObj.transform.parent = null;
         segmentObj.transform.localScale = new Vector3(segmentObj.transform.localScale.x, length, segmentObj.transform.localScale.z);
         segmentObj.transform.parent = this.transform;
-        segmentObj.transform.localPosition = new Vector3(0, length, 0);
+        segmentObj.transform.localPosition = new Vector3(0, 0, length);
     }
 
     public void MoveToPosition(Vector3 position, float length) {

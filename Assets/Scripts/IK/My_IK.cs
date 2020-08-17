@@ -6,6 +6,7 @@ public class My_IK : MonoBehaviour
 {
     [SerializeField] Transform target;
     [SerializeField] GameObject segmentPrefab;
+    [SerializeField] int iterations = 10;
     [SerializeField] Vector3 basePostion;
     [SerializeField] bool fixedBase;
 
@@ -33,9 +34,12 @@ public class My_IK : MonoBehaviour
     }
 
     private void Update() {
-        TenticlePostionUpdate();
+        for (int i = 0; i < iterations + 1; i++)
+            TenticlePostionUpdate();
     }
 
+
+    //20:06
     private void TenticlePostionUpdate() {
         segments[segments.Length - 1].MoveToPosition(target.transform.position, segmentLength);
 
@@ -43,8 +47,10 @@ public class My_IK : MonoBehaviour
             segments[i].MoveToPosition(segments[i + 1], segmentLength);
         if(fixedBase) {
             segments[0].transform.position = basePostion;
-            for (int i = 1; i < segments.Length; i++)
-                segments[i].transform.position = segments[i-1].transform.position + (segments[i-1].transform.forward * segmentLength * 2);
+            for (int i = 1; i < segments.Length; i++) {
+                Vector3 dir = (segments[i].transform.position - segments[i-1].transform.position).normalized;
+                segments[i].transform.position = segments[i-1].transform.position + (dir * segmentLength * 2);
+            }
         }
     }
 }
