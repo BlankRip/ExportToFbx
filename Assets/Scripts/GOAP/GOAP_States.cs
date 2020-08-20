@@ -9,7 +9,7 @@ public enum GOAP_States {
     HasRange,
     InFireRange,
     PlayerInSite,
-    DamagePlayer,
+    DamageingPlayer,
     HasPatrolEnergy,
     Patrolling,
     Resting,

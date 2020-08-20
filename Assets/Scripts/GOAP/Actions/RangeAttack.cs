@@ -12,7 +12,7 @@ public class RangeAttack : GOAP_Action
         }
 
         if(resultStates.Count == 0) {
-            resultStates.Add(GOAP_States.DamagePlayer);
+            resultStates.Add(GOAP_States.DamageingPlayer);
         }
     }
 }
