@@ -183,7 +183,7 @@ MonoBehaviour:
   iterations: 3
   basePostion: {x: 0, y: 0.2, z: -11}
   fixedBase: 1
-  numberOfSegments: 25
+  numberOfSegments: 18
   segmentLength: 0.5
 --- !u!1 &261241976
 GameObject:
