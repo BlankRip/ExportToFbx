@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GOAP_Action : MonoBehaviour
 {
-    public List<GOAP_States> requiredStates;
-    public List<GOAP_States> resultStates;
+    public GOAP_StatesList requiredStates;
+    public GOAP_StatesList resultStates;
 
     public virtual void ExicuitAction(GOAP_Agent agent) {}
 }

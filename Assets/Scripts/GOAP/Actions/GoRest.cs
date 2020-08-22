@@ -5,12 +5,12 @@ using UnityEngine;
 public class GoRest : GOAP_Action
 {
     private void Start() {
-        if(requiredStates.Count == 0) {
-            requiredStates.Add(GOAP_States.Awake);
+        if(requiredStates.states.Count == 0) {
+            requiredStates.states.Add(GOAP_States.Awake);
         }
 
-        if(resultStates.Count == 0) {
-            resultStates.Add(GOAP_States.Resting);
+        if(resultStates.states.Count == 0) {
+            resultStates.states.Add(GOAP_States.Resting);
         }
     }
 }

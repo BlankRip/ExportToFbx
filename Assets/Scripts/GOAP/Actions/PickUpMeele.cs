@@ -5,13 +5,13 @@ using UnityEngine;
 public class PickUpMeele : GOAP_Action
 {
     private void Start() {
-        if(requiredStates.Count == 0) {
-            requiredStates.Add(GOAP_States.Awake);
-            requiredStates.Add(GOAP_States.MeeleInSite);
+        if(requiredStates.states.Count == 0) {
+            requiredStates.states.Add(GOAP_States.Awake);
+            requiredStates.states.Add(GOAP_States.MeeleInSite);
         }
 
-        if(resultStates.Count == 0) {
-            resultStates.Add(GOAP_States.HasMeele);
+        if(resultStates.states.Count == 0) {
+            resultStates.states.Add(GOAP_States.HasMeele);
         }
     }
 }

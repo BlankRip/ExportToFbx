@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class GOAP_Goal : MonoBehaviour
 {
-    public List<GOAP_States> goalStates;
+    public GOAP_StatesList goalStates;
 }

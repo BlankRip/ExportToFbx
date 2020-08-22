@@ -5,8 +5,8 @@ using UnityEngine;
 public class Goal_Rest : GOAP_Goal
 {
     private void Start() {
-        if(goalStates.Count == 0) {
-            goalStates.Add(GOAP_States.Resting);
+        if(goalStates.states.Count == 0) {
+            goalStates.states.Add(GOAP_States.Resting);
         }
     }
 }
