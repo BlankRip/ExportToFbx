@@ -452,7 +452,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4d7e2045ed11a3247a5bb4100d3f4efb, type: 2}
+  - {fileID: 2100000, guid: 764a8f387f6181241b7bcff0a52e11b0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -605,6 +605,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 401e168478bcb984a871aea0d81ef70e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  validityApprovalStates:
+    states: 
   goalStates:
     states: 
 --- !u!114 &294254135
@@ -619,6 +621,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57f51d177351ea04fb996bc290a2b910, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  validityApprovalStates:
+    states: 
   goalStates:
     states: 
 --- !u!114 &294254136
@@ -633,6 +637,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e436bd45d486cca448a881f19ea86cc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  validityApprovalStates:
+    states: 
   goalStates:
     states: 
 --- !u!114 &294254137
@@ -661,6 +667,9 @@ MonoBehaviour:
   - {fileID: 2001682372}
   - {fileID: 1557029339}
   - {fileID: 1908108938}
+  lowEnergyMat: {fileID: 2100000, guid: 4d7e2045ed11a3247a5bb4100d3f4efb, type: 2}
+  chargedMat: {fileID: 2100000, guid: 764a8f387f6181241b7bcff0a52e11b0, type: 2}
+  renderer: {fileID: 0}
   worldState:
     states: 0b00000008000000
   actions: []
@@ -697,7 +706,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1 &328859699
 GameObject:
@@ -1526,7 +1535,7 @@ PrefabInstance:
     - target: {fileID: 8478454923835051626, guid: 0769ade05688d88469457dac540642a6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.39
+      value: 1.19
       objectReference: {fileID: 0}
     - target: {fileID: 8478454923835051626, guid: 0769ade05688d88469457dac540642a6,
         type: 3}
@@ -1536,7 +1545,7 @@ PrefabInstance:
     - target: {fileID: 8478454923835051626, guid: 0769ade05688d88469457dac540642a6,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.44
+      value: -6.07
       objectReference: {fileID: 0}
     - target: {fileID: 8478454923835051626, guid: 0769ade05688d88469457dac540642a6,
         type: 3}

@@ -16,13 +16,13 @@ public class PickUpRange : GOAP_Action
     }
 
     public override void InitializeAction(GOAP_Agent agent) {
-        agent.movePosition = agent.rangeWeapon.transform.position;
+        agent.movePosition = new Vector3(agent.rangeWeapon.transform.position.x, agent.transform.position.y, agent.rangeWeapon.transform.position.z);
     }
 
     public override void ExicuitAction(GOAP_Agent agent) {
         Debug.Log("<color=red> Pick-up Range </color>");
         
-        if((agent.transform.position - agent.movePosition).sqrMagnitude >= 0.5f * 0.5f)
+        if((agent.transform.position - agent.movePosition).sqrMagnitude >= 1f * 1f)
             agent.transform.position = Vector3.MoveTowards(agent.transform.position, agent.movePosition, agent.moveSpeed);
         else {
             agent.rangeWeapon.transform.parent = agent.rangePosition;

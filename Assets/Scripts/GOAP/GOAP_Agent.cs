@@ -13,11 +13,14 @@ public class GOAP_Agent : MonoBehaviour
     public Transform meelePostion;
     public Transform rangePosition;
     public Transform[] waypoints;
+    public Material lowEnergyMat;
+    public Material chargedMat;
+    [HideInInspector] public Renderer renderer;
     public GOAP_StatesList worldState;
     [SerializeField] List<GOAP_Action> actions;
     [SerializeField] List<GOAP_Goal> goals;
     private GOAP_Goal goal;
-    public Queue<GOAP_Action> currentPlan;
+    private Queue<GOAP_Action> currentPlan;
 
     //Sensor stuff
     RaycastHit hitInfo;
@@ -34,22 +37,18 @@ public class GOAP_Agent : MonoBehaviour
         actions = new List<GOAP_Action>(GetComponents<GOAP_Action>());
         goals = new List<GOAP_Goal>(GetComponents<GOAP_Goal>());
         currentPlan = new Queue<GOAP_Action>();
-        goal = goals[0];
+        renderer = GetComponent<Renderer>();
 
         meeleAround = rangeAround = playerAround = false;
-        patroleEnergy = 100;
+        patroleEnergy = 50;
+
+        StartCoroutine(Planner());
     }
 
     
     void Update() {
         SensorsUpdate();
-        
-        if(Input.GetKeyDown(KeyCode.E)) {
-            Plan();
-            Debug.Log(currentPlan.Count);
-            if(currentPlan.Count != 0)
-                currentPlan.Peek().InitializeAction(this);
-        }
+
         if(currentPlan.Count != 0)
             currentPlan.Peek().ExicuitAction(this);
     }
@@ -99,8 +98,10 @@ public class GOAP_Agent : MonoBehaviour
     }
 
     private void PatrolCapabilitySensor() {
-        if(patroleEnergy <= 0)
+        if(patroleEnergy <= 0) {
+            renderer.material = lowEnergyMat;
             worldState.RemoveState(GOAP_States.HasPatrolEnergy);
+        }
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -136,6 +137,16 @@ public class GOAP_Agent : MonoBehaviour
 #endregion
 
     private void Plan() {
+        for (int i = 0; i < goals.Count; i++) {
+            if(goals[i].isValid(this)) {
+                goal = goals[i];
+                break;
+            }
+        }
+
+        if(worldState.CompareState(goal.goalStates) == 0)
+            return;
+
         currentPlan.Clear();
         Stack<SimulationStep> sim = new Stack<SimulationStep>();
 
@@ -180,6 +191,16 @@ public class GOAP_Agent : MonoBehaviour
         currentPlan.Dequeue();
         if(currentPlan.Count != 0)
             currentPlan.Peek().InitializeAction(this);
+    }
+
+    IEnumerator Planner() {
+        Plan();
+        Debug.Log(currentPlan.Count);
+        if(currentPlan.Count != 0)
+            currentPlan.Peek().InitializeAction(this);
+
+        yield return new WaitForSeconds(3f);
+        StartCoroutine(Planner());
     }
 }
 

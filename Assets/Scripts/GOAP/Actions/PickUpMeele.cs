@@ -16,13 +16,13 @@ public class PickUpMeele : GOAP_Action
     }
 
     public override void InitializeAction(GOAP_Agent agent) {
-        agent.movePosition = agent.meeleWeapon.transform.position;
+        agent.movePosition = new Vector3(agent.meeleWeapon.transform.position.x, agent.transform.position.y, agent.meeleWeapon.transform.position.z);
     }
 
     public override void ExicuitAction(GOAP_Agent agent) {
         Debug.Log("<color=red> Pick up Meele </color>");
 
-        if((agent.transform.position - agent.movePosition).sqrMagnitude >= 0.5f * 0.5f)
+        if((agent.transform.position - agent.movePosition).sqrMagnitude >= 1f * 1f)
             agent.transform.position = Vector3.MoveTowards(agent.transform.position, agent.movePosition, agent.moveSpeed);
         else {
             agent.meeleWeapon.transform.parent = agent.meelePostion;

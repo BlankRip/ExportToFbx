@@ -15,11 +15,16 @@ public class Patroll : GOAP_Action
         if(resultStates.states.Count == 0) {
             resultStates.states.Add(GOAP_States.Patrolling);
         }
+        waypointTracker = 0;
     }
 
     public override void InitializeAction(GOAP_Agent agent) {
-        agent.movePosition = agent.waypoints[0].position;
-        waypointTracker = 0;
+        Vector3 desigredTarget = new Vector3(agent.waypoints[waypointTracker].position.x, agent.transform.position.y, agent.waypoints[waypointTracker].position.z);
+        Vector3 dir = desigredTarget - agent.transform.position;
+        if(Physics.Raycast(agent.transform.position, dir.normalized, dir.magnitude + 1))
+            agent.movePosition = new Vector3(agent.waypoints[0].position.x, agent.transform.position.y, agent.waypoints[0].position.z);
+        else
+            agent.movePosition = desigredTarget;
     }
 
     public override void ExicuitAction(GOAP_Agent agent) {
@@ -29,12 +34,13 @@ public class Patroll : GOAP_Action
 
         float distance = Vector3.Distance(agent.transform.position, agent.movePosition);
 
-        if (distance <= 0.3f) {
+        if (distance <= 0.2f) {
             if (waypointTracker < agent.waypoints.Length - 1)
                 waypointTracker++;
             else
                 waypointTracker = 0;
-            agent.movePosition = agent.waypoints[waypointTracker].position;
+            agent.movePosition = new Vector3(agent.waypoints[waypointTracker].position.x, agent.transform.position.y, agent.waypoints[waypointTracker].position.z);
+            Debug.Log(agent.waypoints[waypointTracker].name);
         }
 
         if(agent.patroleEnergy <= 0) 
