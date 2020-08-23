@@ -23,7 +23,7 @@ public class GoRest : GOAP_Action
     public override void ExicuitAction(GOAP_Agent agent) {
         Debug.Log("<color=red> GO Rest </color>");
 
-        if((agent.transform.position - agent.movePosition).sqrMagnitude >= 0.1f * 0.1f)
+        if((agent.transform.position - agent.movePosition).sqrMagnitude >= 0.5f * 0.5f)
             agent.transform.position = Vector3.MoveTowards(agent.transform.position, agent.movePosition, agent.moveSpeed);
         else {
             recovering = true;
@@ -32,7 +32,7 @@ public class GoRest : GOAP_Action
         }
         
         if(recovering) {
-            agent.patroleEnergy += Time.deltaTime;
+            agent.patroleEnergy += Time.deltaTime * agent.pEnergyChangeSpeed;
             if(agent.patroleEnergy >= 100) {
                 agent.worldState.RemoveState(GOAP_States.Resting);
                 agent.worldState.AddStates(GOAP_States.Awake);

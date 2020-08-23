@@ -8,6 +8,7 @@ public class GOAP_Agent : MonoBehaviour
     [SerializeField] int maxPlanDepth;
     [SerializeField] LayerMask rayLayers;
     public float moveSpeed;
+    public float pEnergyChangeSpeed = 3;
     public Transform restingPlace;
     public Transform meelePostion;
     public Transform rangePosition;
@@ -16,7 +17,7 @@ public class GOAP_Agent : MonoBehaviour
     [SerializeField] List<GOAP_Action> actions;
     [SerializeField] List<GOAP_Goal> goals;
     private GOAP_Goal goal;
-    private Queue<GOAP_Action> currentPlan;
+    public Queue<GOAP_Action> currentPlan;
 
     //Sensor stuff
     RaycastHit hitInfo;
@@ -46,6 +47,8 @@ public class GOAP_Agent : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.E)) {
             Plan();
             Debug.Log(currentPlan.Count);
+            if(currentPlan.Count != 0)
+                currentPlan.Peek().InitializeAction(this);
         }
         if(currentPlan.Count != 0)
             currentPlan.Peek().ExicuitAction(this);

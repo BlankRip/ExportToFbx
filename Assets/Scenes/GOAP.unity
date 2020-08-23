@@ -398,7 +398,7 @@ GameObject:
   - component: {fileID: 294254136}
   - component: {fileID: 294254135}
   - component: {fileID: 294254134}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Agent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -651,7 +651,8 @@ MonoBehaviour:
   rayLayers:
     serializedVersion: 2
     m_Bits: 16183
-  moveSpeed: 0.3
+  moveSpeed: 0.05
+  pEnergyChangeSpeed: 3
   restingPlace: {fileID: 184402217}
   meelePostion: {fileID: 2040040687}
   rangePosition: {fileID: 1396695173}
@@ -661,7 +662,7 @@ MonoBehaviour:
   - {fileID: 1557029339}
   - {fileID: 1908108938}
   worldState:
-    states: 0b000000
+    states: 0b00000008000000
   actions: []
   goals: []
   meeleWeapon: {fileID: 0}
@@ -1494,7 +1495,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1396695173}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: RangeSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1717,7 +1718,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2040040687}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: MeeleSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}

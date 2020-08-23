@@ -20,7 +20,7 @@ public class MoveToMeeleRange : GOAP_Action
     public override void ExicuitAction(GOAP_Agent agent) {
         Debug.Log("<color=red> Move To Meele </color>");
 
-        if((agent.transform.position - agent.player.transform.position).sqrMagnitude >= 0.5f * 0.5f)
+        if((agent.transform.position - agent.player.transform.position).sqrMagnitude >= 1f * 1f)
             agent.transform.position = Vector3.MoveTowards(agent.transform.position, agent.player.transform.position, agent.moveSpeed);
         else
             agent.PopAction();
