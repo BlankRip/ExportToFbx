@@ -16,7 +16,8 @@ public class RangeAttack : GOAP_Action
         }
     }
 
-    public override void ExicuitAction(GOAP_Agent agent) {
+    public override void InitializeAction(GOAP_Agent agent) {
         Debug.Log("<color=red> Range Attack </color>");
+        agent.PopAction();   
     }
 }

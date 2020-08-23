@@ -15,7 +15,11 @@ public class PickUpMeele : GOAP_Action
         }
     }
 
-    public override void ExicuitAction(GOAP_Agent agent) {
+    public override void InitializeAction(GOAP_Agent agent) {
         Debug.Log("<color=red> Pick up Meele </color>");
+        agent.meeleWeapon.transform.parent = agent.meelePostion;
+        agent.meeleWeapon.transform.localPosition = Vector3.zero;
+        agent.worldState.AddStates(GOAP_States.HasMeele);
+        agent.PopAction();
     }
 }

@@ -5,23 +5,29 @@ using UnityEngine;
 public class GOAP_Agent : MonoBehaviour
 {
     //1:38 W9
+    [SerializeField] int maxPlanDepth;
     [SerializeField] LayerMask rayLayers;
-    [SerializeField] GOAP_Goal goal;
-    [SerializeField] GOAP_StatesList worldState;
+    public float moveSpeed;
+    public Transform restingPlace;
+    public Transform meelePostion;
+    public Transform rangePosition;
+    public Transform[] waypoints;
+    public GOAP_StatesList worldState;
     [SerializeField] List<GOAP_Action> actions;
     [SerializeField] List<GOAP_Goal> goals;
-    [SerializeField] int maxPlanDepth;
-    public Queue<GOAP_Action> currentPlan;
+    private GOAP_Goal goal;
+    private Queue<GOAP_Action> currentPlan;
 
     //Sensor stuff
     RaycastHit hitInfo;
     bool meeleAround;
-    GameObject meeleWeapon;
+    public GameObject meeleWeapon;
     bool rangeAround;
-    GameObject rangeWeapon;
+    public GameObject rangeWeapon;
     bool playerAround;
-    GameObject player;
-    float patroleEnergy;
+    public GameObject player;
+    public float patroleEnergy;
+    [HideInInspector] public Vector3 movePosition;
 
     void Start() {
         actions = new List<GOAP_Action>(GetComponents<GOAP_Action>());
@@ -35,22 +41,22 @@ public class GOAP_Agent : MonoBehaviour
 
     
     void Update() {
+        SensorsUpdate();
+        
         if(Input.GetKeyDown(KeyCode.E)) {
             Plan();
             Debug.Log(currentPlan.Count);
-            while(currentPlan.Count != 0) {
-                currentPlan.Peek().ExicuitAction(this);
-                currentPlan.Dequeue();
-            }
         }
-        SensorsUpdate();
+        if(currentPlan.Count != 0)
+            currentPlan.Peek().ExicuitAction(this);
     }
 
-
+#region Sensors
     private void SensorsUpdate() {
         PlayerSightSensor();
         RangSightSensor();
         MeeleSightSensor();
+        PatrolCapabilitySensor();
     }
 
     private void PlayerSightSensor() {
@@ -124,7 +130,7 @@ public class GOAP_Agent : MonoBehaviour
             worldState.RemoveState(GOAP_States.PlayerInSite);
         }
     }
-
+#endregion
 
     private void Plan() {
         currentPlan.Clear();
@@ -165,6 +171,12 @@ public class GOAP_Agent : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void PopAction() {
+        currentPlan.Dequeue();
+        if(currentPlan.Count != 0)
+            currentPlan.Peek().InitializeAction(this);
     }
 }
 

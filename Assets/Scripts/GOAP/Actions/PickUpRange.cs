@@ -15,7 +15,11 @@ public class PickUpRange : GOAP_Action
         }
     }
 
-    public override void ExicuitAction(GOAP_Agent agent) {
+    public override void InitializeAction(GOAP_Agent agent) {
         Debug.Log("<color=red> Pick-up Range </color>");
+        agent.rangeWeapon.transform.parent = agent.rangePosition;
+        agent.rangeWeapon.transform.localPosition = Vector3.zero;
+        agent.worldState.AddStates(GOAP_States.HasRange);
+        agent.PopAction();
     }
 }
