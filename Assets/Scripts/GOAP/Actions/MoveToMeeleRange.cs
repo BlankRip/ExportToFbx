@@ -15,4 +15,8 @@ public class MoveToMeeleRange : GOAP_Action
             resultStates.states.Add(GOAP_States.InMeeleRange);
         }
     }
+
+    public override void ExicuitAction(GOAP_Agent agent) {
+        Debug.Log("<color=red> Move To Meele </color>");
+    }
 }

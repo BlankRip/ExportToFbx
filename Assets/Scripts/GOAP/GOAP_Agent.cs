@@ -20,8 +20,10 @@ public class GOAP_Agent : MonoBehaviour
     void Update() {
         if(Input.GetKeyDown(KeyCode.E)) {
             Plan();
+            Debug.Log(currentPlan.Count);
             while(currentPlan.Count != 0) {
-                currentPlan.Dequeue().ExicuitAction(this);
+                currentPlan.Peek().ExicuitAction(this);
+                currentPlan.Dequeue();
             }
         }
     }
@@ -51,14 +53,17 @@ public class GOAP_Agent : MonoBehaviour
             if(currentSate.CompareState(goal.goalStates) == 0 || currentDepth >= maxPlanDepth) {
                 if(currentDepth < minDepth) {
                     currentPlan.Clear();
-                    for (int i = 0; i < simPlan.Length; i++) {
-                        if(simPlan[i] != null)
-                            currentPlan.Enqueue(simPlan[i]);
+                    for (int i = 0; i <= currentDepth; i++) {
+                        if(simPlan[i] != null) {
+                            if(!currentPlan.Contains(simPlan[i]))
+                                currentPlan.Enqueue(simPlan[i]);
+                        }
                     }
+                    minDepth = currentDepth;
                 }
             } else {
                 for (int i = 0; i < actions.Count; i++) {
-                    if(currentSate.CompareState(actions[i].resultStates) == 0 && currentSate.CompareState(actions[i].resultStates) > 0) {
+                    if(currentSate.CompareState(actions[i].requiredStates) == 0 && currentSate.CompareState(actions[i].resultStates) > 0) {
                         GOAP_StatesList newSimState = new GOAP_StatesList(currentSate);
                         newSimState.AddStates(actions[i].resultStates);
                         sim.worldStates.Push(newSimState);

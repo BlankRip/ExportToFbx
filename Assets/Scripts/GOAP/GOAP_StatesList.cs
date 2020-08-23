@@ -13,7 +13,7 @@ public class GOAP_StatesList
     }
 
     public GOAP_StatesList(GOAP_StatesList copy) {
-        states = copy.states;
+        states = new List<GOAP_States>(copy.states);
     }
 
     public int CompareState(GOAP_StatesList subSet) {
@@ -33,7 +33,7 @@ public class GOAP_StatesList
         }
     }
 
-    private void RemoveState(GOAP_StatesList statesToRemove) {
+    public void RemoveState(GOAP_StatesList statesToRemove) {
         for (int i = 0; i < statesToRemove.states.Count; i++) {
             if(states.Contains(statesToRemove.states[i]))
                 states.Remove(statesToRemove.states[i]);

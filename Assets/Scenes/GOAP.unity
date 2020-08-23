@@ -226,6 +226,7 @@ GameObject:
   - component: {fileID: 294254126}
   - component: {fileID: 294254125}
   - component: {fileID: 294254124}
+  - component: {fileID: 294254137}
   - component: {fileID: 294254129}
   - component: {fileID: 294254128}
   - component: {fileID: 294254123}
@@ -255,8 +256,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54ce04b9d8c7a3646b7320509c49b5ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredStates: 
-  resultStates: 
+  requiredStates:
+    states: 
+  resultStates:
+    states: 
 --- !u!65 &294254124
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -343,8 +346,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67af13e527419ea408a108d2f807a3ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredStates: 
-  resultStates: 
+  requiredStates:
+    states: 
+  resultStates:
+    states: 
 --- !u!114 &294254129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,8 +362,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e847c044a46d214fa944653b3cebbeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredStates: 
-  resultStates: 
+  requiredStates:
+    states: 
+  resultStates:
+    states: 
 --- !u!114 &294254130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,8 +378,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd5c3a704fb5f6a44a391b4d608ef56e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredStates: 
-  resultStates: 
+  requiredStates:
+    states: 
+  resultStates:
+    states: 
 --- !u!114 &294254131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,8 +394,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d75c8b0920934c44f85c7848fa8f3be2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredStates: 
-  resultStates: 
+  requiredStates:
+    states: 
+  resultStates:
+    states: 
 --- !u!114 &294254132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,8 +410,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c8c2df010332db41bfc730de9f015a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredStates: 
-  resultStates: 
+  requiredStates:
+    states: 
+  resultStates:
+    states: 
 --- !u!114 &294254133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,8 +426,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69de01ce82e557a4a95030e507c10fb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredStates: 
-  resultStates: 
+  requiredStates:
+    states: 
+  resultStates:
+    states: 
 --- !u!114 &294254134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,7 +442,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 401e168478bcb984a871aea0d81ef70e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goalStates: 
+  goalStates:
+    states: 
 --- !u!114 &294254135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -440,7 +456,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57f51d177351ea04fb996bc290a2b910, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goalStates: 
+  goalStates:
+    states: 
 --- !u!114 &294254136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,7 +470,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e436bd45d486cca448a881f19ea86cc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goalStates: 
+  goalStates:
+    states: 
+--- !u!114 &294254137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294254122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc4e1532642d3f24e8318c963e37f16d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goal: {fileID: 294254136}
+  worldState:
+    states: 0b000000040000000000000006000000
+  actions: []
+  maxPlanDepth: 5
 --- !u!1 &650422996
 GameObject:
   m_ObjectHideFlags: 0

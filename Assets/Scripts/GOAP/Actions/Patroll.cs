@@ -14,4 +14,8 @@ public class Patroll : GOAP_Action
             resultStates.states.Add(GOAP_States.Patrolling);
         }
     }
+
+    public override void ExicuitAction(GOAP_Agent agent) {
+        Debug.Log("<color=red> Patrole </color>");
+    }
 }

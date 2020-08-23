@@ -14,4 +14,8 @@ public class PickUpRange : GOAP_Action
             resultStates.states.Add(GOAP_States.HasRange);
         }
     }
+
+    public override void ExicuitAction(GOAP_Agent agent) {
+        Debug.Log("<color=red> Pick-up Range </color>");
+    }
 }

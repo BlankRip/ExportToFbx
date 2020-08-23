@@ -14,4 +14,8 @@ public class PickUpMeele : GOAP_Action
             resultStates.states.Add(GOAP_States.HasMeele);
         }
     }
+
+    public override void ExicuitAction(GOAP_Agent agent) {
+        Debug.Log("<color=red> Pick up Meele </color>");
+    }
 }

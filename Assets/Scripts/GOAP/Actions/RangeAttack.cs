@@ -15,4 +15,8 @@ public class RangeAttack : GOAP_Action
             resultStates.states.Add(GOAP_States.DamageingPlayer);
         }
     }
+
+    public override void ExicuitAction(GOAP_Agent agent) {
+        Debug.Log("<color=red> Range Attack </color>");
+    }
 }
