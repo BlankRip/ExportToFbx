@@ -8,6 +8,8 @@ TagManager:
   - PathFindNode
   - Squard
   - Ground
+  - MeeleWeapon
+  - RangeWeapon
   layers:
   - Default
   - TransparentFX
@@ -22,8 +24,8 @@ TagManager:
   - Postprocessing
   - NotWalkable
   - Jelly
-  - 
-  - 
+  - Weapon
+  - Agent
   - 
   - 
   - 

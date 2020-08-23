@@ -33,10 +33,20 @@ public class GOAP_StatesList
         }
     }
 
+    public void AddStates(GOAP_States stateToAdd) {
+        if(!states.Contains(stateToAdd))
+            states.Add(stateToAdd);
+    }
+
     public void RemoveState(GOAP_StatesList statesToRemove) {
         for (int i = 0; i < statesToRemove.states.Count; i++) {
             if(states.Contains(statesToRemove.states[i]))
                 states.Remove(statesToRemove.states[i]);
         }
+    }
+
+    public void RemoveState(GOAP_States stateToRemove) {
+        if(states.Contains(stateToRemove))
+            states.Remove(stateToRemove);
     }
 }
