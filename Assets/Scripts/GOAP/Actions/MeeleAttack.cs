@@ -17,6 +17,7 @@ public class MeeleAttack : GOAP_Action
 
     public override void InitializeAction(GOAP_Agent agent) {
         Debug.Log("<color=red> Meele Attack </color>");
+        agent.hitEffect.Play();
         agent.PopAction();
     }
 }

@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class GOAP_Agent : MonoBehaviour
 {
-    //1:38 W9
+    //2:02 W9
     [SerializeField] int maxPlanDepth;
+    [SerializeField] float gapBtwPlanns = 3;
     [SerializeField] LayerMask rayLayers;
     public float moveSpeed;
     public float pEnergyChangeSpeed = 3;
@@ -13,6 +14,7 @@ public class GOAP_Agent : MonoBehaviour
     public Transform meelePostion;
     public Transform rangePosition;
     public Transform[] waypoints;
+    public ParticleSystem hitEffect;
     public Material lowEnergyMat;
     public Material chargedMat;
     [HideInInspector] public Renderer renderer;
@@ -199,7 +201,7 @@ public class GOAP_Agent : MonoBehaviour
         if(currentPlan.Count != 0)
             currentPlan.Peek().InitializeAction(this);
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(gapBtwPlanns);
         StartCoroutine(Planner());
     }
 }
