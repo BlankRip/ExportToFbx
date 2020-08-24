@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GOAP_Agent : MonoBehaviour
 {
-    //2:02 W9
+    //2:18 W9
     [SerializeField] int maxPlanDepth;
     [SerializeField] float gapBtwPlanns = 3;
     [SerializeField] LayerMask rayLayers;
@@ -34,6 +34,7 @@ public class GOAP_Agent : MonoBehaviour
     public GameObject player;
     public float patroleEnergy;
     [HideInInspector] public Vector3 movePosition;
+    public SimulationStep currentSimData;
 
     void Start() {
         actions = new List<GOAP_Action>(GetComponents<GOAP_Action>());
@@ -160,7 +161,7 @@ public class GOAP_Agent : MonoBehaviour
         List<GOAP_States> targetStates = new List<GOAP_States>(goal.goalStates.states);
 
         while(sim.Count != 0) {
-            SimulationStep currentSimData = sim.Pop();
+            currentSimData = sim.Pop();
             simPlan[currentSimData.depth] = currentSimData.action;
 
             if(currentSimData.depth > minDepth)
@@ -179,7 +180,7 @@ public class GOAP_Agent : MonoBehaviour
                 }
             } else {
                 for (int i = 0; i < actions.Count; i++) {
-                    if(currentSimData.worldState.CompareState(actions[i].requiredStates) == 0 && currentSimData.worldState.CompareState(actions[i].resultStates) > 0) {
+                    if(actions[i].isValid(this)) {
                         GOAP_StatesList newSimState = new GOAP_StatesList(currentSimData.worldState);
                         newSimState.AddStates(actions[i].resultStates);
                         sim.Push(new SimulationStep(newSimState, actions[i], (currentSimData.depth + 1)));
