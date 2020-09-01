@@ -23,7 +23,7 @@ public class PickUpRange : GOAP_Action
         Debug.Log("<color=red> Pick-up Range </color>");
         
         if((agent.transform.position - agent.movePosition).sqrMagnitude >= 1f * 1f)
-            agent.transform.position = Vector3.MoveTowards(agent.transform.position, agent.movePosition, agent.moveSpeed);
+            agent.transform.position = Vector3.MoveTowards(agent.transform.position, agent.movePosition, agent.moveSpeed * Time.deltaTime);
         else {
             agent.rangeWeapon.transform.parent = agent.rangePosition;
             agent.rangeWeapon.transform.localPosition = Vector3.zero;

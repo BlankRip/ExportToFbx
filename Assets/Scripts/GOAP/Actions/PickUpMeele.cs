@@ -23,7 +23,7 @@ public class PickUpMeele : GOAP_Action
         Debug.Log("<color=red> Pick up Meele </color>");
 
         if((agent.transform.position - agent.movePosition).sqrMagnitude >= 1f * 1f)
-            agent.transform.position = Vector3.MoveTowards(agent.transform.position, agent.movePosition, agent.moveSpeed);
+            agent.transform.position = Vector3.MoveTowards(agent.transform.position, agent.movePosition, agent.moveSpeed * Time.deltaTime);
         else {
             agent.meeleWeapon.transform.parent = agent.meelePostion;
             agent.meeleWeapon.transform.localPosition = Vector3.zero;

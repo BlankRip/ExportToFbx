@@ -29,7 +29,7 @@ public class Patroll : GOAP_Action
 
     public override void ExicuitAction(GOAP_Agent agent) {
         Debug.Log("<color=red> Patrole </color>");
-        agent.transform.position = Vector3.MoveTowards(agent.transform.position, agent.movePosition, agent.moveSpeed);
+        agent.transform.position = Vector3.MoveTowards(agent.transform.position, agent.movePosition, agent.moveSpeed * Time.deltaTime);
         agent.patroleEnergy -= Time.deltaTime * agent.pEnergyChangeSpeed;
 
         float distance = Vector3.Distance(agent.transform.position, agent.movePosition);

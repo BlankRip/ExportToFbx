@@ -21,7 +21,7 @@ public class MoveToMeeleRange : GOAP_Action
         Debug.Log("<color=red> Move To Meele </color>");
 
         if((agent.transform.position - agent.player.transform.position).sqrMagnitude >= 1f * 1f)
-            agent.transform.position = Vector3.MoveTowards(agent.transform.position, agent.player.transform.position, agent.moveSpeed);
+            agent.transform.position = Vector3.MoveTowards(agent.transform.position, agent.player.transform.position, agent.moveSpeed * Time.deltaTime);
         else
             agent.PopAction();
     }

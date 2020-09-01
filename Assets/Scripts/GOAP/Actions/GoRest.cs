@@ -24,7 +24,7 @@ public class GoRest : GOAP_Action
         Debug.Log("<color=red> GO Rest </color>");
 
         if((agent.transform.position - agent.movePosition).sqrMagnitude >= 0.3f * 0.3f)
-            agent.transform.position = Vector3.MoveTowards(agent.transform.position, agent.movePosition, agent.moveSpeed);
+            agent.transform.position = Vector3.MoveTowards(agent.transform.position, agent.movePosition, agent.moveSpeed * Time.deltaTime);
         else {
             recovering = true;
             agent.worldState.RemoveState(GOAP_States.Awake);
