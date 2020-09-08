@@ -429,7 +429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3194aae62ac598043a37b6caf3dc8478, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationType: 0
+  formationType: 1
   startMoveFormation: 1
   stopMoveFormation: 0
   rotateCircle: 1
