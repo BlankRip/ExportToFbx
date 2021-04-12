@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/ShowingItazaStuff.unity
-    guid: a099829f1f793024ca146f0faa88da53
+    path: Assets/Scenes/ClickerLeaderboard/MainMenu.unity
+    guid: cd98b7b0f364d43418a559b21a0c83a8
+  - enabled: 1
+    path: Assets/Scenes/ClickerLeaderboard/TheGame_LB.unity
+    guid: db191877fe5b73e4bb6ff8d49c997222
   m_configObjects: {}
