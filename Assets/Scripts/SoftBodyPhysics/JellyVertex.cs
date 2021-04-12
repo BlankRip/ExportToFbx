@@ -21,12 +21,19 @@ public class JellyVertex
         return currentVertexPosition - initialVertexPosition;
     }
 
-    public void UpdateVelocity(float bounceSpeed) {
-        currentVelocity = currentVelocity - GetCurrentDisplacement() * bounceSpeed * Time.deltaTime;
+    public void UpdateVelocity(float bounceSpeed, float time = -1) {
+        if(time == -1) {
+            time = Time.deltaTime;
+        }
+        currentVelocity = currentVelocity - GetCurrentDisplacement() * bounceSpeed * time;
     }
 
-    public void Settle(float stiffness) {
-        currentVelocity *= 1 - stiffness * Time.deltaTime;
+    public void Settle(float stiffness, float time = -1) {
+        if(time == -1) {
+            time = Time.deltaTime;
+        }
+        currentVelocity *= 1 - stiffness * time;
+        Debug.Log("InVert");
     }
 
     public void ApplyPressureToVertex(Transform transform, Vector3 position, float pressure) {

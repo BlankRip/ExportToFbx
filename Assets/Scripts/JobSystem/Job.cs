@@ -6,9 +6,9 @@ using UnityEngine;
 public abstract class Job : MonoBehaviour
 {
     public enum JobState { NotStarted, InProgress, Done };
-    public JobState State { get; }
+    public JobState State { get; protected set;}
 
-    public object Result { get; }
+    public object Result { get; protected set;}
     public int MyId { get; set; }
 
     public abstract void PerformJob();
