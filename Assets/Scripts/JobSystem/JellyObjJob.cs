@@ -5,7 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter))]
 public class JellyObjJob : MonoBehaviour
 {
-    [SerializeField] bool useJob;
     [SerializeField] float bounceSpeed = 60;
     [SerializeField] float fallForce = 60;
     [SerializeField] float stiffness = 1;
@@ -64,7 +63,7 @@ public class JellyObjJob : MonoBehaviour
     }
 
     private void UpdateVertices() {
-        if(useJob) {
+        if(UseJobSystem.yes) {
             if(jobComplete) {
                 Debug.Log("Am Here");
                 mesh.vertices = currentMeshVertices;
