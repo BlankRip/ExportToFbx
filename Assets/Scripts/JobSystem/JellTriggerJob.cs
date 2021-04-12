@@ -39,11 +39,9 @@ public class JellTriggerJob : MonoBehaviour
     }
 
     private void Update() {
-        if(Input.GetKey(KeyCode.Mouse0))
-        {
+        if(Input.GetKey(KeyCode.Mouse0)) {
             ray = gameCam.ScreenPointToRay(Input.mousePosition);
-            if(Physics.Raycast(ray, out hitInfo, Mathf.Infinity, jellyLayer))
-            {
+            if(Physics.Raycast(ray, out hitInfo, Mathf.Infinity, jellyLayer)) {
                 jellyObj = hitInfo.transform.gameObject.GetComponent<JellyObjJob>();
                 jellyObj.ApplyPressureToPoint(hitInfo.point, pressure);
             }
@@ -59,6 +57,13 @@ public class JellTriggerJob : MonoBehaviour
 
     public void SwitchMode() {
         UseJobSystem.yes = !UseJobSystem.yes;
-        UIUpdate();
+        if(UseJobSystem.yes) {
+            ThreadManager.instance.CreateThread();
+            stateText.text = "Job System";
+        }
+        else {
+            ThreadManager.instance.TerminateThreads();
+            stateText.text = "NO Job System";
+        }
     }
 }

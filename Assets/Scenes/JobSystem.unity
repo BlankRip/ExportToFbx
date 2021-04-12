@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 419176155}
   - component: {fileID: 419176154}
   - component: {fileID: 419176157}
+  - component: {fileID: 419176158}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -219,14 +220,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateText: {fileID: 975764236}
   startPos: {x: 0, y: 0, z: 0}
-  girdSizeX: 28
-  girdSizeY: 23
+  girdSizeX: 30
+  girdSizeY: 30
   objDimentionsXZ: {x: 1, y: 1}
   gridObj: {fileID: 8045866000847657, guid: 218ef482071849f4f9a6674f7eebe8da, type: 3}
   jellyLayer:
     serializedVersion: 2
     m_Bits: 4096
   pressure: 25
+--- !u!114 &419176158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419176153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d7abfb365fdc24ebaac2a4f48da32e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &566628959
 GameObject:
   m_ObjectHideFlags: 0

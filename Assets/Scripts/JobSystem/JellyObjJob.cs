@@ -16,9 +16,8 @@ public class JellyObjJob : MonoBehaviour
 
     private JellyVertex[] jellyVertices;
     private Vector3[] currentMeshVertices;
-    private Job calucationJob;
     private float time;
-    private bool jobComplete;
+    public bool added;
 
 
     private void Start() {
@@ -29,13 +28,13 @@ public class JellyObjJob : MonoBehaviour
             meshCollider = GetComponent<MeshCollider>();
 
         GetVertices();
+        added = false;
     }
 
     private void GetVertices() {
         jellyVertices = new JellyVertex[mesh.vertices.Length];
         currentMeshVertices = new Vector3[mesh.vertices.Length];
-        for (int i = 0; i < mesh.vertices.Length; i++)
-        {
+        for (int i = 0; i < mesh.vertices.Length; i++) {
             jellyVertices[i] = new JellyVertex(i, mesh.vertices[i], mesh.vertices[i]);
             currentMeshVertices[i] = mesh.vertices[i];
         }
@@ -43,42 +42,21 @@ public class JellyObjJob : MonoBehaviour
 
     private void Update() {
         time = Time.deltaTime;
-        // if(Input.GetKeyDown(KeyCode.L)) {
-        //     calucationJob = new VertexCaluationJob(VerticesMath, EndMeshUpdate);
-        //     MyJobSystem.AddnPerfromJob(calucationJob);
-        // }
-
-        // if(jobComplete) {
-        //     Debug.Log("Am Here");
-        //     mesh.vertices = currentMeshVertices;
-        //     mesh.RecalculateBounds();
-        //     mesh.RecalculateNormals();
-        //     mesh.RecalculateTangents();
-        //     if(useMeshCollide)
-        //         meshCollider.sharedMesh = mesh;
-        //     jobComplete = false;
-        //     calucationJob = null;
-        // }
         UpdateVertices();
     }
 
     private void UpdateVertices() {
         if(UseJobSystem.yes) {
-            if(jobComplete) {
+            if(!added) { 
+                ThreadManager.instance.AddJelly(this);
+                added = true;
+            }
                 mesh.vertices = currentMeshVertices;
                 mesh.RecalculateBounds();
                 mesh.RecalculateNormals();
                 mesh.RecalculateTangents();
                 if(useMeshCollide)
                     meshCollider.sharedMesh = mesh;
-                jobComplete = false;
-                calucationJob = null;
-            }
-
-            if(calucationJob == null) {
-                calucationJob = new VertexCaluationJob(VerticesMath, EndMeshUpdate);
-                MyJobSystem.AddnPerfromJob(calucationJob);
-            }
         } else {
             VerticesMath();
             mesh.vertices = currentMeshVertices;
@@ -87,13 +65,7 @@ public class JellyObjJob : MonoBehaviour
             mesh.RecalculateTangents();
             if(useMeshCollide)
                 meshCollider.sharedMesh = mesh;
-            calucationJob = null;
         }
-        
-    }
-
-    public void EndMeshUpdate(object obj) {
-        jobComplete = true;
     }
 
     public void VerticesMath() {
@@ -113,8 +85,7 @@ public class JellyObjJob : MonoBehaviour
 
     private void OnCollisionEnter(Collision other) {
         ContactPoint[] collisionPoints = other.contacts;
-        for (int i = 0; i < collisionPoints.Length; i++)
-        {
+        for (int i = 0; i < collisionPoints.Length; i++) {
             Vector3 pressurPoint = collisionPoints[i].point + (collisionPoints[i].point * 0.1f);
             ApplyPressureToPoint(pressurPoint, fallForce);
         }
