@@ -65,7 +65,6 @@ public class JellyObjJob : MonoBehaviour
     private void UpdateVertices() {
         if(UseJobSystem.yes) {
             if(jobComplete) {
-                Debug.Log("Am Here");
                 mesh.vertices = currentMeshVertices;
                 mesh.RecalculateBounds();
                 mesh.RecalculateNormals();
@@ -77,7 +76,6 @@ public class JellyObjJob : MonoBehaviour
             }
 
             if(calucationJob == null) {
-                Debug.Log("Job");
                 calucationJob = new VertexCaluationJob(VerticesMath, EndMeshUpdate);
                 MyJobSystem.AddnPerfromJob(calucationJob);
             }
@@ -96,7 +94,6 @@ public class JellyObjJob : MonoBehaviour
 
     public void EndMeshUpdate(object obj) {
         jobComplete = true;
-        Debug.Log("Calculation compete");
     }
 
     public void VerticesMath() {

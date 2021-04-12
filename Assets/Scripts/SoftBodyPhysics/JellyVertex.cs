@@ -33,7 +33,6 @@ public class JellyVertex
             time = Time.deltaTime;
         }
         currentVelocity *= 1 - stiffness * time;
-        Debug.Log("InVert");
     }
 
     public void ApplyPressureToVertex(Transform transform, Vector3 position, float pressure) {

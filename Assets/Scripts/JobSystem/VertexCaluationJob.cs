@@ -27,6 +27,5 @@ public class VertexCaluationJob : Job
             }
         }
         State = Job.JobState.Done;
-        Debug.Log("DONE");
     }
 }

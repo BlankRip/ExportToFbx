@@ -10,8 +10,8 @@ public class JellTriggerJob : MonoBehaviour
 
     [Header("Grid Gen Stuff")]
     [SerializeField] Vector3 startPos = Vector3.zero;
-    [SerializeField] [Range(0, 4)] int girdSizeX = 3;
-    [SerializeField] [Range(0, 4)] int girdSizeY = 3;
+    [SerializeField] [Range(0, 30)] int girdSizeX = 3;
+    [SerializeField] [Range(0, 30)] int girdSizeY = 3;
     [SerializeField] Vector2 objDimentionsXZ = new Vector2(1, 1);
     [SerializeField] GameObject gridObj;
 

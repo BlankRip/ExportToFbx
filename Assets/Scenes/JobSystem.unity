@@ -198,8 +198,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 419176153}
-  m_LocalRotation: {x: -0.4799852, y: 0.37843403, z: -0.24102853, w: -0.75386155}
-  m_LocalPosition: {x: 3.550219, y: 7.927203, z: -1.3789253}
+  m_LocalRotation: {x: -0.3960318, y: 0.5457548, z: -0.3262593, w: -0.66246927}
+  m_LocalPosition: {x: 31.427073, y: 24.190647, z: 8.501682}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -219,14 +219,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateText: {fileID: 975764236}
   startPos: {x: 0, y: 0, z: 0}
-  girdSizeX: 4
-  girdSizeY: 4
+  girdSizeX: 28
+  girdSizeY: 23
   objDimentionsXZ: {x: 1, y: 1}
   gridObj: {fileID: 8045866000847657, guid: 218ef482071849f4f9a6674f7eebe8da, type: 3}
   jellyLayer:
     serializedVersion: 2
     m_Bits: 4096
-  pressure: 3
+  pressure: 25
 --- !u!1 &566628959
 GameObject:
   m_ObjectHideFlags: 0
