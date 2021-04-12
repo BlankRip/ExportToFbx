@@ -5,9 +5,8 @@ using UnityEngine;
 public class JobTest : MonoBehaviour
 {
     private void Start() {
-        int spinJob = MyJobSystem.AddnPerfromJob(new SpinCubeJob(this.transform, Random.insideUnitSphere, RotStuff));
-        // int hpJobId = MyJobSystem.AddnPerfromJob(new PrintHp());
-        // int sheildJobId = MyJobSystem.AddnPerfromJob(new PrintSheild());
+        int hpJobId = MyJobSystem.AddnPerfromJob(new PrintHp());
+        int sheildJobId = MyJobSystem.AddnPerfromJob(new PrintSheild());
         //int hpJobId = JobSystem.AddJob(new PrintHp(), 10);
         //JobSystem.PerformJob(hpJobId);
         //JobSystem.PerformAllJobs();
@@ -21,11 +20,5 @@ public class JobTest : MonoBehaviour
         //        }
         //    }
         //}
-    }
-
-    public void RotStuff(Vector3 dir) {
-        Debug.Log("I am here");
-        transform.Rotate(dir, Space.World);
-        Debug.Log("I am Done Rot");
     }
 }
