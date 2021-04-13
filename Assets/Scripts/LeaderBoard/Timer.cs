@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
+    [SerializeField] AudioClip readySetClip;
     [SerializeField] GameObject startPanel;
     [SerializeField] Text startText;
     [SerializeField] Text secLeftText;
@@ -29,6 +30,7 @@ public class Timer : MonoBehaviour
 
     private IEnumerator StartSequence() {
         startPanel.SetActive(true);
+        LB_AudioKing.instance.PlayOneShot(readySetClip);
         int x = 3;
         while(x > 0) {
             switch (x) {

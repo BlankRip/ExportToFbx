@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class LB_GameManager : MonoBehaviour
 {
+    [SerializeField] AudioClip click;
     [SerializeField] Text scoreText;
 
     public int score;
@@ -15,6 +16,7 @@ public class LB_GameManager : MonoBehaviour
     }
 
     public void AddScore() {
+        LB_AudioKing.instance.PlayOneShot(click);
         score++;
         scoreText.text = score.ToString();
     }
