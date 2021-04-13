@@ -22,7 +22,7 @@ public class Timer : MonoBehaviour
                 seconds -= Time.deltaTime;
             } else {
                 timerActive = false;
-                //EndGame.instance.GameOver();
+                LB_EndGame.instance.TriggerEnd();
             }
             secLeftText.text = ((int)seconds).ToString();
         }

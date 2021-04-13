@@ -5,12 +5,14 @@ using UnityEngine.UI;
 
 public class LB_GameManager : MonoBehaviour
 {
+    public static LB_GameManager instance;
     [SerializeField] AudioClip click;
     [SerializeField] Text scoreText;
 
     public int score;
 
-    private void Start() {
+    private void Awake() {
+        instance = this;
         score = 0;
         scoreText.text = score.ToString();
     }
