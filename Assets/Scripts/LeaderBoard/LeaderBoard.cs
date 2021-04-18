@@ -63,7 +63,7 @@ public class LeaderBoard : MonoBehaviour
 
 
     IEnumerator GetScoreLeaderBoard(string username) {
-        UnityWebRequest www = UnityWebRequest.Get($"http://127.0.0.1:4020/LeaderBoard?username={username}");
+        UnityWebRequest www = UnityWebRequest.Get($"http://db-learning-21t1.herokuapp.com/LeaderBoard?username={username}");
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)
@@ -84,20 +84,18 @@ public class LeaderBoard : MonoBehaviour
     }
 
     IEnumerator GetAllLeaderBoard() {
-        UnityWebRequest www = UnityWebRequest.Get($"http://127.0.0.1:4020/LeaderboardAll");
+        UnityWebRequest www = UnityWebRequest.Get($"http://db-learning-21t1.herokuapp.com/LeaderboardAll");
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)
             Debug.Log(www.error);
         else {
-            //Debug.Log(www.downloadHandler.text);
             recArray = JsonUtility.FromJson<LBArray>(www.downloadHandler.text);
             for (int i = 0; i < topChartCount; i++) {
                 if(i < recArray.recieved.Length) {
                     LB_ListItem item = GameObject.Instantiate(listItem, Vector3.zero, Quaternion.identity).GetComponent<LB_ListItem>();
                     item.UpdateData((i+1).ToString(), recArray.recieved[i].username, recArray.recieved[i].score.ToString());
                     item.transform.parent = topNamesParent;
-                    //Debug.Log($"{recArray.recieved[i].username} : {recArray.recieved[i].score}");
                 } else
                     break;
             }
@@ -105,7 +103,7 @@ public class LeaderBoard : MonoBehaviour
     }
 
     IEnumerator Upload(LeaderBoardData data) {
-        UnityWebRequest www = UnityWebRequest.Post("http://127.0.0.1:4020/LeaderBoard", JsonUtility.ToJson(data));
+        UnityWebRequest www = UnityWebRequest.Post("http://db-learning-21t1.herokuapp.com/LeaderBoard", JsonUtility.ToJson(data));
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)
