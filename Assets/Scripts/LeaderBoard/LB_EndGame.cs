@@ -24,11 +24,13 @@ public class LB_EndGame : MonoBehaviour
     }
 
     public void SubmitToLeaderBoard(InputField field) {
-        LB_AudioKing.instance.PlayOneShot(buttonSE);
-        LeaderBoardData data = new LeaderBoardData(field.text, LB_GameManager.instance.score);
-        LeaderBoard.instance.Send(data);
-        enterName.SetActive(false);
-        endButtons.SetActive(true);
+        if(string.IsNullOrEmpty(field.text)) {
+            LB_AudioKing.instance.PlayOneShot(buttonSE);
+            LeaderBoardData data = new LeaderBoardData(field.text, LB_GameManager.instance.score);
+            LeaderBoard.instance.Send(data);
+            enterName.SetActive(false);
+            endButtons.SetActive(true);
+        }
     }
 
     public void BackToMenu() {
