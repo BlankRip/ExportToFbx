@@ -45,12 +45,20 @@ public class LeaderBoard : MonoBehaviour
             StartCoroutine(GetAllLeaderBoard());
     }
 
+    private void OnEnable() {
+        findName.text = "";
+        findScore.text = "";
+    }
+
     public void Send(LeaderBoardData data) {
         StartCoroutine(Upload(data));
     }
 
     public void Recieve(InputField field) {
-        StartCoroutine(GetScoreLeaderBoard(field.text));
+        if(!string.IsNullOrEmpty(field.text)) {
+            StartCoroutine(GetScoreLeaderBoard(field.text));
+            field.text = "";
+        }
     }
 
 
@@ -61,10 +69,17 @@ public class LeaderBoard : MonoBehaviour
         if (www.isNetworkError || www.isHttpError)
             Debug.Log(www.error);
         else {
-            recievedData = JsonUtility.FromJson<LeaderBoardData>(www.downloadHandler.text);
-            nameNotFound.SetActive(false);
-            findName.text = recievedData.username;
-            findScore.text = recievedData.score.ToString();
+            try {
+                recievedData = JsonUtility.FromJson<LeaderBoardData>(www.downloadHandler.text);
+                nameNotFound.SetActive(false);
+                findName.text = recievedData.username;
+                findScore.text = recievedData.score.ToString();
+            } catch {
+                nameNotFound.SetActive(true);
+                findName.text = "";
+                findScore.text = "";
+            }
+            
         }
     }
 
@@ -75,7 +90,7 @@ public class LeaderBoard : MonoBehaviour
         if (www.isNetworkError || www.isHttpError)
             Debug.Log(www.error);
         else {
-            Debug.Log(www.downloadHandler.text);
+            //Debug.Log(www.downloadHandler.text);
             recArray = JsonUtility.FromJson<LBArray>(www.downloadHandler.text);
             for (int i = 0; i < topChartCount; i++) {
                 if(i < recArray.recieved.Length) {
