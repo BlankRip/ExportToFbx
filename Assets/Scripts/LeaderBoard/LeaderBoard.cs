@@ -56,7 +56,7 @@ public class LeaderBoard : MonoBehaviour
 
     public void Recieve(InputField field) {
         if(!string.IsNullOrEmpty(field.text)) {
-            StartCoroutine(GetScoreLeaderBoard(field.text));
+            StartCoroutine(GetScoreLeaderBoard(field.text.ToUpper()));
             field.text = "";
         }
     }

@@ -24,9 +24,9 @@ public class LB_EndGame : MonoBehaviour
     }
 
     public void SubmitToLeaderBoard(InputField field) {
-        if(string.IsNullOrEmpty(field.text)) {
+        if(!string.IsNullOrEmpty(field.text)) {
             LB_AudioKing.instance.PlayOneShot(buttonSE);
-            LeaderBoardData data = new LeaderBoardData(field.text, LB_GameManager.instance.score);
+            LeaderBoardData data = new LeaderBoardData(field.text.ToUpper(), LB_GameManager.instance.score);
             LeaderBoard.instance.Send(data);
             enterName.SetActive(false);
             endButtons.SetActive(true);
