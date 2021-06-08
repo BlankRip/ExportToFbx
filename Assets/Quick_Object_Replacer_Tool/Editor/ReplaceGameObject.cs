@@ -10,9 +10,9 @@ public class ReplaceGameObject : EditorWindow
     bool copyRotation;
     bool copyScale;
 
-    [MenuItem("Window/GameobjectReplacer")]
+    [MenuItem("Window/Quick Object Replacer")]
     public static void ShowWindow() {
-        ReplaceGameObject window = GetWindow<ReplaceGameObject>("Gameobject Replacer");
+        ReplaceGameObject window = GetWindow<ReplaceGameObject>("Quick Object Replacer");
         window.maxSize = new Vector2(window.maxSize.x, 150);
         window.minSize = new Vector2(250, 130);
     }
@@ -39,7 +39,7 @@ public class ReplaceGameObject : EditorWindow
 
         string prefabType = PrefabUtility.GetPrefabAssetType(replacementObject).ToString();
         string instanceStatus = null;
-        if(prefabType == "Regular")
+        if(prefabType == "Regular" || prefabType == "Variant")
             instanceStatus = PrefabUtility.GetPrefabInstanceStatus(replacementObject).ToString();
         
         List<GameObject> newSelected = new List<GameObject>();
@@ -51,20 +51,34 @@ public class ReplaceGameObject : EditorWindow
                 continue;
             }
 
+            bool hasParent = false;
+            Transform parent = null;
+            if(gameObject.transform.parent != null) {
+                hasParent = true;
+                parent = gameObject.transform.parent;
+            }
+
             GameObject newGameObject = null;
             
-            if(prefabType == "Regular") {
+            if(prefabType == "Regular" || prefabType == "Variant") {
                 if(instanceStatus == "Connected") {
                     Object newPrefab = PrefabUtility.GetCorrespondingObjectFromSource(replacementObject);
                     newGameObject = (GameObject)PrefabUtility.InstantiatePrefab(newPrefab);
                     PrefabUtility.SetPropertyModifications(newGameObject, PrefabUtility.GetPropertyModifications(replacementObject));
+                    if(hasParent)
+                        newGameObject.transform.parent = parent;
                 }
-                else 
+                else {
                     newGameObject = (GameObject)PrefabUtility.InstantiatePrefab(replacementObject);
+                    if(hasParent)
+                        newGameObject.transform.parent = parent;
+                }
             }
             else {
                 newGameObject = (GameObject)GameObject.Instantiate(replacementObject);
                 newGameObject.name = gameObject.name;
+                if(hasParent)
+                    newGameObject.transform.parent = parent;
             }
 
             Undo.RegisterCreatedObjectUndo(newGameObject, "created object");
@@ -81,7 +95,7 @@ public class ReplaceGameObject : EditorWindow
         Selection.objects = newSelected.ToArray();
 
         string goString = (newSelected.Count > 1) ? " GameObjects have " : " GameObject has ";
-        if(prefabType == "Regular") {
+        if(prefabType == "Regular" || prefabType == "Variant") {
             if(instanceStatus == "Connected")
                 prefabType = "Prefab Instance";
             else
@@ -89,8 +103,5 @@ public class ReplaceGameObject : EditorWindow
         }
         else
             prefabType = "None";
-		Debug.Log(newSelected.Count.ToString() + goString + "been replaced with: <color=green>" + 
-        replacementObject.name + "</color>\nPrefab Type: <color=blue>" + prefabType + "</color>");
     }
-
 }
