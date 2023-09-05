@@ -32,6 +32,9 @@ public class DisableIfExample : MonoBehaviour
     [SerializeField]
     [DisableIf("disableEnumIfLessThanEqual150", 150.0f, ComparisonType.LessOrEqual, DisablingType.ReadOnly)]
     TestEnum enumTest;
+    [SerializeField]
+    [DisableIf("disableEnumIfLessThanEqual150", 150.0f, ComparisonType.LessOrEqual, DisablingType.ReadOnly)]
+    int[] intArray;
 
     private enum TestEnum { Nada, Something, NotSomething }
 

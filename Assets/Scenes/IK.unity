@@ -322,8 +322,9 @@ MonoBehaviour:
   nextString: 
   showFloatIfGreaterThan50: 34
   greaterThan50Float: 6.9
-  disableIntBelowIfLessThanEqual150: 208.3
-  lessThan150NotAllowedInt: 0
+  disableEnumIfLessThanEqual150: 128.4
+  enumTest: 0
+  intArray: 0000000000000000
 --- !u!4 &479814701
 Transform:
   m_ObjectHideFlags: 0
