@@ -296,7 +296,7 @@ GameObject:
   - component: {fileID: 479814701}
   - component: {fileID: 479814700}
   m_Layer: 0
-  m_Name: TestDrawIf
+  m_Name: TestDesableIf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -314,12 +314,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01c2a0ae847ef204895e1c9651c75f53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hide3Ints: 1
+  hide3Ints: 0
   int1: 0
   int2: 0
   int3: 0
   disableNextString: 1
   nextString: 
+  showFloatIfGreaterThan50: 34
+  greaterThan50Float: 6.9
+  disableIntBelowIfLessThanEqual150: 208.3
+  lessThan150NotAllowedInt: 0
 --- !u!4 &479814701
 Transform:
   m_ObjectHideFlags: 0

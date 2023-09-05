@@ -25,15 +25,29 @@ namespace Blank.Attributes
             comparedField = property.serializedObject.FindProperty(drawIf.comparedPropertyName);
 
             // Get the value of the compared field.
-            bool comparedFieldValue = comparedField.boolValue;
-
-            //Object targetObject = comparedField.serializedObject.targetObject;
-            //System.Type targetObjectClassType = targetObject.GetType();
-            //float numericComparedFieldValue = (int) 0;
+            SerializedPropertyType propertyType = comparedField.propertyType;
+            object comparedFieldValue = null;
+            float numericComparedFieldValue = (int)0;
+            float numericComparedValue = (int)0;
+            if (propertyType == SerializedPropertyType.Boolean)
+            {
+                comparedFieldValue = comparedField.boolValue;
+            }
+            else if (propertyType == SerializedPropertyType.Float)
+            {
+                comparedFieldValue = comparedField.floatValue;
+                numericComparedFieldValue = comparedField.floatValue;
+                numericComparedValue = (float)drawIf.comparedValue;
+            }
+            else if (propertyType == SerializedPropertyType.Integer)
+            {
+                comparedFieldValue = comparedField.intValue;
+                numericComparedFieldValue = comparedField.intValue;
+                numericComparedValue = (int)drawIf.comparedValue;
+            }
 
             // Is the condition met? Should the field be drawn?
             bool conditionMet = false;
-
             switch (drawIf.comparisonType)
             {
                 case ComparisonType.Equals:
@@ -46,29 +60,29 @@ namespace Blank.Attributes
                         conditionMet = true;
                     break;
 
-                //case ComparisonType.GreaterThan:
-                //    if (numericComparedFieldValue > numericComparedValue)
-                //        conditionMet = true;
-                //    break;
+                case ComparisonType.GreaterThan:
+                    if (numericComparedFieldValue > numericComparedValue)
+                        conditionMet = true;
+                    break;
 
-                //case ComparisonType.SmallerThan:
-                //    if (numericComparedFieldValue < numericComparedValue)
-                //        conditionMet = true;
-                //    break;
+                case ComparisonType.LessThan:
+                    if (numericComparedFieldValue < numericComparedValue)
+                        conditionMet = true;
+                    break;
 
-                //case ComparisonType.SmallerOrEqual:
-                //    if (numericComparedFieldValue <= numericComparedValue)
-                //        conditionMet = true;
-                //    break;
+                case ComparisonType.LessOrEqual:
+                    if (numericComparedFieldValue <= numericComparedValue)
+                        conditionMet = true;
+                    break;
 
-                //case ComparisonType.GreaterOrEqual:
-                //    if (numericComparedFieldValue >= numericComparedValue)
-                //        conditionMet = true;
-                //    break;
+                case ComparisonType.GreaterOrEqual:
+                    if (numericComparedFieldValue >= numericComparedValue)
+                        conditionMet = true;
+                    break;
             }
 
             propertyHeight = base.GetPropertyHeight(property, label);
-            if (conditionMet)
+            if (!conditionMet)
             {
                 EditorGUI.PropertyField(position, property, label);
             }

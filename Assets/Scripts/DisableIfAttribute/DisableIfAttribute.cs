@@ -6,7 +6,11 @@ namespace Blank.Attributes
     public enum ComparisonType
     {
         Equals = 1,
-        NotEqual = 2
+        NotEqual = 2,
+        GreaterThan = 3,
+        LessThan = 4,
+        LessOrEqual = 5,
+        GreaterOrEqual = 6
     }
 
     public enum DisablingType
@@ -22,7 +26,7 @@ namespace Blank.Attributes
     public class DisableIfAttribute : PropertyAttribute
     {
         public string comparedPropertyName { get; private set; }
-        public bool comparedValue { get; private set; }
+        public object comparedValue { get; private set; }
         public ComparisonType comparisonType { get; private set; }
         public DisablingType disablingType { get; private set; }
 
@@ -33,7 +37,7 @@ namespace Blank.Attributes
         /// <param name="comparedValue">The value the property is being compared to.</param>
         /// <param name="comparisonType">The type of comperison the values will be compared by.</param>
         /// <param name="disablingType">The type of disabling that should happen if the condition is NOT met. Defaulted to DisablingType.DontDraw.</param>
-        public DisableIfAttribute(string comparedPropertyName, bool comparedValue, ComparisonType comparisonType, DisablingType disablingType = DisablingType.DontDraw)
+        public DisableIfAttribute(string comparedPropertyName, object comparedValue, ComparisonType comparisonType, DisablingType disablingType = DisablingType.DontDraw)
         {
             this.comparedPropertyName = comparedPropertyName;
             this.comparedValue = comparedValue;
