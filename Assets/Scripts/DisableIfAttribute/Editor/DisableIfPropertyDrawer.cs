@@ -23,6 +23,14 @@ namespace Blank.Attributes
         {
             drawIf = attribute as DisableIfAttribute;
             comparedField = property.serializedObject.FindProperty(drawIf.comparedPropertyName);
+            if(comparedField == null)
+            {
+                Debug.LogError($"The Compare PropertyName passed in the DisableIfAttribute of the {property.serializedObject.targetObject.GetType()} script is Not Valid, " +
+                    $"placed on variable with display name: {property.displayName}.");
+                propertyHeight = base.GetPropertyHeight(property, label);
+                EditorGUI.PropertyField(position, property, label);
+                return;
+            }
 
             // Get the value of the compared field.
             SerializedPropertyType propertyType = comparedField.propertyType;
